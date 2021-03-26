@@ -216,7 +216,7 @@ public:
 
 	// Encodes a tree to a single string.
 	string serialize(TreeNode* root) {
-		ostringstream out;
+		ostringstream out;//use ostringstream so we don't have to split node's val during deserializing. 
 		serialize(root, out);
 		return out.str();
 	}
@@ -228,6 +228,7 @@ public:
 	}
 
 private:
+	//preorder traversal
 	void serialize(TreeNode* root, ostringstream& out) {
 		if (root) {
 			out << root->val << ' ';
@@ -241,7 +242,7 @@ private:
 
 	TreeNode* deserialize(istringstream& in) {
 		string val;
-		in >> val;
+		in >> val;//read one word from in one time
 		if (val != "#") {
 			TreeNode* root = new TreeNode(stoi(val));
 			root->left = deserialize(in);
