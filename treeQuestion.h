@@ -216,7 +216,7 @@ public:
 
 	// Encodes a tree to a single string.
 	string serialize(TreeNode* root) {
-		ostringstream out;//use ostringstream so we don't have to split node's val during deserializing. 
+		ostringstream out;
 		serialize(root, out);
 		return out.str();
 	}
@@ -228,7 +228,6 @@ public:
 	}
 
 private:
-	//preorder traversal
 	void serialize(TreeNode* root, ostringstream& out) {
 		if (root) {
 			out << root->val << ' ';
@@ -242,7 +241,7 @@ private:
 
 	TreeNode* deserialize(istringstream& in) {
 		string val;
-		in >> val;//read one word from in one time
+		in >> val;
 		if (val != "#") {
 			TreeNode* root = new TreeNode(stoi(val));
 			root->left = deserialize(in);
@@ -250,5 +249,31 @@ private:
 			return root;
 		}
 		else return nullptr;
+	}
+};
+
+class BSTIterator {
+private:
+	stack<TreeNode*>stk;
+	TreeNode* cur;
+public:
+	BSTIterator(TreeNode* root) :cur(root) {
+	}
+
+	int next() {
+		while (cur != nullptr) {
+			stk.push(cur);
+			cur = cur->left;
+		}
+		cur = stk.top();
+		stk.pop();
+		int res = cur->val;
+		cur = cur->right;
+		return res;
+	}
+
+	bool hasNext() {
+		if (cur != nullptr || !stk.empty())return true;
+		else  return false;
 	}
 };
