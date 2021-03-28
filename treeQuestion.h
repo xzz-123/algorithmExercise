@@ -251,7 +251,7 @@ private:
 		else return nullptr;
 	}
 };
-
+//Implement the BSTIterator class that represents an iterator over the in - order traversal of a binary search tree(BST) :
 class BSTIterator {
 private:
 	stack<TreeNode*>stk;
