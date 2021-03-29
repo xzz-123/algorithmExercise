@@ -277,3 +277,19 @@ public:
 		else  return false;
 	}
 };
+//判断该树是不是平衡二叉树
+class BanlanceBT {
+public:
+	bool isBalanced(TreeNode* root) {
+		return recur(root) != -1;
+	}
+	//递归返回的过程中，若遇到不平衡的子树，则直接返回-1，完成剪枝
+	int recur(TreeNode* root) {
+		if (root == nullptr)return 0;
+		int left = recur(root->left);
+		if (left == -1)return -1;
+		int right = recur(root->right);
+		if (right == -1)return -1;
+		return abs(left - right) > 1 ? -1 : max(left, right) + 1;
+	}
+};
