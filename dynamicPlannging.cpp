@@ -17,3 +17,15 @@ public:
 		return dp[n];
 	}
 };
+//股票的最大利润
+class MaxProfit {
+public:
+	int maxProfit(vector<int>& prices) {
+		int minPrice = INT_MAX, ret = 0;
+		for (auto &p : prices) {
+			ret = max(ret, p - minPrice);
+			minPrice = min(minPrice, p);
+		}
+		return ret;
+	}
+};
