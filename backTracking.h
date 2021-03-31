@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 using namespace std;
+//nums中元素不重复，找到所有不重复的子集
 class Subsets1 {
 public:
 	vector<vector<int>> subsets(vector<int>& nums) {
@@ -22,7 +23,7 @@ public:
 		helper(res, cur, nums, index + 1);
 	}
 };
-
+//nums元素有重复，找到所有不重复的子集
 class Subsets2 {
 public:
 
