@@ -180,3 +180,116 @@ public:
 	}
 
 };
+//判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一个格子开始，
+//每一步可以在矩阵中向上下左右移动一个格子。如果一条路径经过了矩阵中的某一个格子，则该路径不能再进入该格子。
+class pathInMatrix {
+
+private:
+	int rowDir[4] = { 0,0,-1,1 };
+	int colDir[4] = { 1,-1,0,0 };
+	bool helper(vector<vector<char>>&board, string word, int rowIndex, int colIndex) {
+		int row = board.size(), col = board[0].size();
+		if (word.empty())return true;
+		if ((rowIndex >= row || colIndex >= col) || rowIndex < 0 || colIndex < 0 ||
+			board[rowIndex][colIndex] != word[0])return false;
+		board[rowIndex][colIndex] = ' ';
+		for (int i = 0;i < 4;++i)
+		{
+			if (helper(board, word.substr(1, word.size() - 1), rowIndex + rowDir[i], colIndex + colDir[i]))
+				return true;
+		}
+		board[rowIndex][colIndex] = word[0];
+		return false;
+	}
+public:
+	bool exist(vector<vector<char>>& board, string word) {
+		int row = board.size(), col = board[0].size();
+		for (int i = 0;i < row;++i) {
+			for (int j = 0;j < col;++j) {
+				if (helper(board, word, i, j))return true;
+			}
+		}
+		return false;
+	}
+};
+//317.Shortest Distance from All Buildings
+//You want to build a house on an empty land which reaches all buildings in the shortest amount of distance.
+//You can only move up, down, left and right.You are given a 2D grid of values 0, 1 or 2, where:
+//Each 0 marks an empty land which you can pass by freely..Each 1 marks a building which you cannot pass through.
+//Each 2 marks an obstacle which you cannot pass through.
+//                       1-0-2-0-1
+//                       | | | | |
+//                       0-0-0-0-0
+//                       | | | | |
+//                       0-0-1-0-0
+class ShortestD{
+private:
+	int rowDir[4] = { 0,0,1,-1 };
+	int colDir[4] = { 1,-1,0,0 };
+	bool isValid(vector<vector<int>>&grid, int rr, int cc, vector<vector<bool>>&visitied) {
+		int rows = grid.size(), cols = grid[0].size();
+		if (rr >= rows || cc >= cols || rr < 0 || cc < 0)return false;
+		if (visitied[rr][cc])return false;
+		if (grid[rr][cc] == 0)return true;
+		return false;
+	}
+	void bfs(vector<vector<int>>&grid, vector<vector<int>>&distance, vector<vector<int>>&canReach, int rowIndex,
+		int colIndex) {
+		int rows = grid.size(), cols = grid[0].size();
+		vector<vector<bool>>visitied(rows, vector<bool>(cols, false));
+		int d = 0;
+		queue<pair<int, int>>q;
+		q.push(make_pair(rowIndex, colIndex));
+		visitied[rowIndex][colIndex] = true;
+		while (!q.empty())
+		{
+			++d;
+			int size = q.size();
+			for (int i=0;i<size;++i)
+			{
+				pair<int, int> cur = q.front();
+				q.pop();
+				for (int j = 0;j < 4;++j) {
+					int rr = rowDir[j] + cur.first;
+					int cc = colDir[j] + cur.second;
+					if (!isValid(grid, rr, cc, visitied))continue;
+					visitied[rr][cc] = true;
+					q.push(make_pair(rr, cc));
+					distance[rr][cc] += d;
+					++canReach[rr][cc];
+				}
+			}
+		}
+
+	}
+public:
+	int shortestDistance(vector<vector<int>>&grid) {
+		int rows = grid.size(), cols = grid[0].size();
+		if (rows==0||cols==0)
+		{
+			return -1;
+		}
+		int minDis = INT_MAX;
+		vector<vector<int>>canReach(rows, vector<int>(cols, 0));
+		vector<vector<int>>distance(rows, vector<int>(cols, 0));
+		int totalBuilding = 0;
+		for(int i=0;i<rows;++i){
+			for (int j = 0;j < cols;++j) {
+				if (grid[i][j] == 1) {
+					totalBuilding++;
+					bfs(grid,distance,canReach,i,j);
+				}
+			}
+		}
+		for (int i = 0;i < rows;++i) {
+			for (int j = 0;j < cols;++j) {
+				if (canReach[i][j]==totalBuilding)
+				{
+					minDis = min(minDis, distance[i][j]);
+				}
+			}
+		}
+		return minDis == INT_MAX ? -1 : minDis;
+	}
+
+};
