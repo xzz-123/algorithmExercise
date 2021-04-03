@@ -32,7 +32,7 @@ public:
 //
 //Input: expression = "2-1-1"
 //	Output : [0, 2]
-//	Explanation :
+//	Explanation 
 //	((2 - 1) - 1) = 0
 //	(2 - (1 - 1)) = 2
 class diffToC {
@@ -83,7 +83,7 @@ public:
 		return res;
 	}
 };
-
+//给定一个数字 n，要求生成所有值为 1...n 的二叉搜索树
 class GenerateTrees {
 public:
 	vector<TreeNode*> helper(int start, int end) {
