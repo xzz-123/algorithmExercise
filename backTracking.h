@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <numeric>
+#include <set>
 using namespace std;
 //nums中元素不重复，找到所有不重复的子集
 class Subsets1 {
@@ -290,6 +291,41 @@ public:
 			}
 		}
 		return minDis == INT_MAX ? -1 : minDis;
+	}
+
+};
+//字符串的排列
+//输入一个字符串，打印出该字符串中字符的所有排列。
+//你可以以任意顺序返回这个字符串数组，但里面不能有重复元素
+class PermutarionString {
+public:
+	vector<string>ret;
+
+	vector<string> permutation(string s) {
+
+		helper(0, s);
+		return ret;
+	}
+	void helper(int x, string &s) {
+		if (x == s.size() - 1) {
+			ret.push_back(s);
+			return;
+		}
+		set<char>se;
+		for (int i = x;i < s.size();++i) {
+			if (se.find(s[i]) != se.end())
+				continue;
+			se.insert(s[i]);
+			swap(i, x, s);
+			helper(x + 1, s);
+			swap(i, x, s);
+		}
+	}
+
+	void swap(int x, int y, string &s) {
+		char tem = s[x];
+		s[x] = s[y];
+		s[y] = tem;
 	}
 
 };
