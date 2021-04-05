@@ -22,3 +22,4 @@ ListNode* addTwoNumbersUseStack(ListNode* l1, ListNode* l2);
 bool isPalindrome(ListNode* head);
 vector<ListNode*> splitListToParts(ListNode* root, int k);
 ListNode* oddEvenList(ListNode* head);
+bool hasCycle(ListNode *head);

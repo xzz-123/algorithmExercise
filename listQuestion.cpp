@@ -250,3 +250,16 @@ ListNode* oddEvenList(ListNode* head) {
 	odd->next = eHead;
 	return head;
 }
+
+bool hasCycle(ListNode *head)
+{
+	if (head == nullptr)return false;
+	ListNode* pSlow = head, *pFast = head;
+	while (pFast&&pFast->next) {
+
+		pSlow = pSlow->next;
+		pFast = pFast->next->next;
+		if (pSlow == pFast)return true;
+	}
+	return false;
+}
