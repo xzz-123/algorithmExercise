@@ -88,3 +88,89 @@ public:
 	}
 
 };
+//74. Search a 2D Matrix
+//
+//Write an efficient algorithm that searches for a value in an m x n matrix.This matrix has the following properties :
+//
+//Integers in each row are sorted from left to right.
+//The first integer of each row is greater than the last integer of the previous row.
+class SearchMatrix {
+public:
+	bool searchMatrix(vector<vector<int>>& matrix, int target) {
+		int rows = matrix.size(), cols = matrix[0].size();
+		int len = rows * cols;
+		int left = 0, right = len - 1;
+		while (left <= right) {
+			int mid = left + ((right - left) >> 1);
+			int x = mid / cols, y = mid % cols;
+			int cur = matrix[x][y];
+			if (cur == target)return true;
+			else if (cur > target)right = mid - 1;
+			else left = mid + 1;
+		}
+		return false;
+	}
+};
+
+//33. Search in Rotated Sorted Array
+//There is an integer array nums sorted in ascending order(with distinct values).
+//
+//Prior to being passed to your function, nums is rotated at an unknown pivot index k(0 <= k < nums.length) such that the resulting array 
+//is[nums[k], nums[k + 1], ..., nums[n - 1], nums[0], nums[1], ..., nums[k - 1]](0 - indexed).For example, [0, 1, 2, 4, 5, 6, 7] might be rotated 
+//at pivot index 3 and become[4, 5, 6, 7, 0, 1, 2].
+//
+//Given the array nums after the rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
+class Search {
+public:
+	int search(vector<int>& nums, int target) {
+		int len = nums.size();
+		int left = 0, right = len - 1;
+		while (left <= right) {
+			int mid = left + ((right - left) >> 1);
+			if (nums[mid] == target)return mid;
+			//如果mid在数组1中
+			if (nums[mid] >= nums[left]) {
+				//如果target也在数组1中
+				if (target >= nums[left]) {
+					if (nums[mid] > target)right = mid - 1;
+					else left = mid + 1;
+				}
+				else {
+					left = mid + 1;
+				}
+			}
+			else {
+				if (target < nums[left]) {
+					if (nums[mid] > target)right = mid - 1;
+					else left = mid + 1;
+				}
+				else {
+					right = mid - 1;
+				}
+			}
+		}
+		return -1;
+	}
+};
+//81. Search in Rotated Sorted Array II.with duplicates
+class Search2 {
+public:
+	bool search(vector<int>& nums, int target) {
+		int len = nums.size();
+		int left = 0, right = len - 1;
+		while (left <= right) {
+			int mid = left + ((right - left) >> 1);
+			if (nums[mid] == target)return true;
+			if (nums[mid] == nums[left] && nums[left] == nums[right]) { ++left;--right; }
+			else if (nums[mid] >= nums[left]) {
+				if (target >= nums[left] && target < nums[mid])right = mid - 1;
+				else left = mid + 1;
+			}
+			else {
+				if (target<nums[left] && target>nums[mid])left = mid + 1;
+				else right = mid - 1;
+			}
+		}
+		return  false;
+	}
+};
