@@ -1,7 +1,26 @@
 #pragma once
 #include <vector>
 using namespace std;
-
+//75.Sort Colors
+//Given an array nums with n objects colored red, white, or blue, sort them in - place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
+//
+//We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.
+class SortColors {
+public:
+	void sortColors(vector<int>& nums) {
+		int len = nums.size();
+		int i = 0, left = 0, right = len - 1;
+		while (i <= right) {
+			if (nums[i] == 0) {
+				swap(nums[i++], nums[left++]);
+			}
+			else if (nums[i] == 2) {
+				swap(nums[i], nums[right--]);
+			}
+			else ++i;
+		}
+	}
+};
 class QuickSort {
 //绿色注释为另一种实现方法——交换大法
 	int partition(vector<int>&nums, int left, int right) {
@@ -105,4 +124,63 @@ public:
 		}
 
 	}
+};
+
+class BubbleSort {
+	void bubbleSort(vector<int>&nums) {
+		int len = nums.size();
+		for (int i = 0;i <len;++i) {
+			for (int j = 0;j < len-i-1;++j) {
+				if (nums[j] > nums[j + 1])swap(nums[j], nums[j + 1]);
+			}
+		}
+	}
+public:
+	vector<int> sortArray(vector<int>& nums) {
+		bubbleSort(nums);return nums;
+	}
+
+};
+
+class InsertSort {
+	void insertSort(vector<int>&nums) {
+		int len = nums.size();
+		for (int i = 1;i < len;++i) {
+			int cur = nums[i];
+			int j = i - 1;
+			while (j >= 0 && cur < nums[j])
+			{
+				nums[j + 1] = nums[j];
+				--j;
+			}
+			nums[j + 1] = cur;
+
+		}
+
+
+	}
+public:
+	vector<int> sortArray(vector<int>& nums) {
+		insertSort(nums);return nums;
+	}
+
+};
+
+class SelectSort {
+	void selectSort(vector<int>&nums) {
+		int len = nums.size();
+
+		for (int i = 0;i < len-1;++i) {
+			int minInd = i;
+			for (int j = i + 1;j < len;++j) {
+				if (nums[minInd] > nums[j])minInd = j;
+			}
+			swap(nums[minInd], nums[i]);
+		}
+	}
+public:
+	vector<int> sortArray(vector<int>& nums) {
+		selectSort(nums);return nums;
+	}
+
 };
