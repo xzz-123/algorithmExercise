@@ -18,7 +18,7 @@ struct TreeNode {
 	
 };
 
-
+//求树的最大深度
 int maxDepth(TreeNode* root);
 int maxDepthIteratively(TreeNode* root);
 //给定一个二叉树，它的每个结点都存放着一个整数值。
@@ -293,3 +293,7 @@ public:
 		return abs(left - right) > 1 ? -1 : max(left, right) + 1;
 	}
 };
+
+
+
+vector<int> postorder(TreeNode* root);

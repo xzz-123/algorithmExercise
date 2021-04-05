@@ -272,16 +272,24 @@ vector<int> inorderTraversal_iteratively(TreeNode* root)
 	vector<int>res;
 	if (root == nullptr)return res;
 	stack<TreeNode*>s;
-	TreeNode* cur = root;
-	while (cur || !s.empty()){
-		while (cur){
-			s.push(cur);
-			cur = cur->left;
+	s.push(root);
+	while (!s.empty()){
+		
+		while (s.top()->left){
+			s.push(s.top()->left);
 		}
-		TreeNode* node = s.top();
-		s.pop();
-		res.push_back(node->val);
-		cur = node->right;
+		while (!s.empty())
+		{
+			TreeNode* cur = s.top();
+			s.pop();
+			res.push_back(cur->val);
+			if (cur->right)
+			{
+				s.push(cur->right);
+				break;
+			}
+		}
+		
 	}
 	return res;
 }
@@ -300,21 +308,27 @@ vector<int> postorderTraversal_iteratively(TreeNode* root)
 	if (root == nullptr)return res;
 	stack<TreeNode*>s;
 	TreeNode* pre = nullptr;
-	while (root || !s.empty()){
-		while (root){
-			s.push(root);
-			root = root->left;
+	s.push(root);
+	while (!s.empty()){
+		while (s.top()->left){
+			s.push(s.top()->left);
 		}
-		TreeNode* node = s.top();
-
-		if (node->right == nullptr || node->right == pre)
+		
+		while (!s.empty())
 		{
-			res.push_back(node->val);
-			s.pop();
-			pre = node;
+			TreeNode*cur = s.top();
+			if (cur->right == pre || cur->right == nullptr) {
+				s.pop();
+				res.push_back(cur->val);
+				pre = cur;
+			}
+			else
+			{
+				s.push(cur->right);
+				break;
+			}
 		}
-		else
-			root = node->right;
+		
 	}
 	return res;
 }
@@ -495,6 +509,24 @@ vector<int> Morris_inorderTraversal(TreeNode* root)
 }
 
 
+
+std::vector<int> postorder(TreeNode* root)
+{
+	if (!root)return vector<int>();
+	deque<int>res;
+	stack<TreeNode*>stk;
+	stk.push(root);
+
+	while (!stk.empty()) {
+		TreeNode* cur = stk.top();
+		stk.pop();
+		res.push_front(cur->val);
+		if (cur->left)stk.push(cur->left);
+		if (cur->right)stk.push(cur->right);
+	}
+	vector<int>vec(res.begin(), res.end());
+	return vec;
+}
 
 void Trie::insert(string word)
 {
