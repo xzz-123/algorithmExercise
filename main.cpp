@@ -246,8 +246,29 @@ public:
 		return ret;
 	}
 	int main(){
-		QuickSort q;
+		TreeNode *TreeNode1 = new TreeNode(1);
+		TreeNode *TreeNode2 = new TreeNode(2);
+		TreeNode *TreeNode3 = new TreeNode(3);
+		TreeNode *TreeNode4 = new TreeNode(4);
+		TreeNode *TreeNode5 = new TreeNode(5);
+		TreeNode *TreeNode6 = new TreeNode(6);
+		TreeNode *TreeNode7 = new TreeNode(7);
+		TreeNode4->left = TreeNode2;
+		TreeNode4->right = TreeNode6;
+		TreeNode2->left = TreeNode1;
+		TreeNode2->right = TreeNode3;
+		TreeNode6->left = TreeNode5;
+		TreeNode6->right = TreeNode7;
+		
+		vector<int>res1 = postorder(TreeNode4);
+		vector<int>res2 = inorderTraversal_iteratively(TreeNode4);
 		vector<int>nums1 = { 5,2,3,1 };
+		SelectSort se;
+		se.sortArray(nums1);
+		BubbleSort b;
+		b.sortArray(nums1);
+		QuickSort q;
+		
 		//q.sortArray(nums1);
 		HeapSort h;
 		//h.heapSort(nums1);
