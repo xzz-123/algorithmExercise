@@ -41,15 +41,16 @@ bool isPalindrome(int x);
 //
 //Second, for any possible substrings with 1 and 0 grouped consecutively, the number of valid substring will be the minimum number of 0 and 1.
 //For example "0001111", will be min(3, 4) = 3, ("01", "0011", "000111")
-int countBinarySubstrings(string s) {
-	int cur = 1, pre = 0, res = 0;
-	for (int i = 1; i < s.size(); ++i){
-		if (s[i] == s[i - 1])++cur;
-		else{
-			res += min(pre, cur);
-			pre = cur;
-			cur = 1;
-		}
-	}
-	return res + min(pre, cur);
-}
+int countBinarySubstrings(string s);
+
+class AddBigNumber {
+public:
+	/**
+	 * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+	 * 计算两个数之和
+	 * @param s string字符串 表示第一个整数
+	 * @param t string字符串 表示第二个整数
+	 * @return string字符串
+	 */
+	string solve(string s, string t);
+};

@@ -263,3 +263,48 @@ bool hasCycle(ListNode *head)
 	}
 	return false;
 }
+
+
+ListNode* reverseKGroup(ListNode* head, int k)
+{
+	// write code here
+
+	ListNode* dummyNode = new ListNode(-1);
+	dummyNode->next = head;
+	ListNode *pre = dummyNode, *cur = head;
+	ListNode*tem = head;
+	int count = 0;
+	while (tem) {
+		++count;
+		tem = tem->next;
+	}
+	int times = count / k;
+	for (int i = 0;i < times;++i) {
+		for (int j = 1;j < k;++j) {
+			tem = cur->next;
+			cur->next = tem->next;
+			tem->next = pre->next;
+			pre->next = tem;
+		}
+		pre = cur;
+		cur = cur->next;
+	}
+	return dummyNode->next;
+}
+
+ListNode * detectCycle(ListNode *head)
+{
+	ListNode* p1 = head, *p2 = head;
+	while (p2&&p2->next) {
+		p1 = p1->next;
+		p2 = p2->next->next;
+		if (p1 == p2)break;
+	}
+	if (!p2 || !p2->next)return nullptr;
+	p1 = head;
+	while (p1 != p2) {
+		p1 = p1->next;
+		p2 = p2->next;
+	}
+	return p1;
+}

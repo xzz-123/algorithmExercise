@@ -132,6 +132,7 @@ vector<int> inorderTraversal_iteratively(TreeNode* root);
 //Binary Tree Postorder Traversal
 vector<int> postorderTraversal_iteratively(TreeNode* root);
 void postorderTraversal(TreeNode* root, vector<int>&res);
+vector<vector<int> > levelOrder(TreeNode* root);
 //Given the root of a binary search tree and the lowest and highest boundaries as low and high, trim the tree so that all its elements lies in[low, high].
 //Trimming the tree should not change the relative structure of the elements that will remain in the tree(i.e., any node's descendant should remain a descendant
 //). It can be proven that there is a unique answer.
@@ -297,3 +298,5 @@ public:
 
 
 vector<int> postorder(TreeNode* root);
+
+vector<vector<int> > zigzagLevelOrder(TreeNode* root);

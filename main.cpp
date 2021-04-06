@@ -9,7 +9,8 @@
 #include "divideAndConquer.h"
 #include "serach.h"
 #include "Sort.h"
-
+#include "stringQuestion.h"
+#include "dynamicPlannging.h"
 using namespace std;
 
 class Solution {
@@ -246,6 +247,12 @@ public:
 		return ret;
 	}
 	int main(){
+		auto ts = threeSum(vector<int>{1, 2, -2, -1});
+		int fn = Fibonacci(1000);
+		vector<vector<int>>matrix = { {1,2,3,4},{5,6,7,8},{9,10,11,12} };
+		spiralOrder(matrix);
+		AddBigNumber ad;
+		string ress = ad.solve("11", "123");
 		TreeNode *TreeNode1 = new TreeNode(1);
 		TreeNode *TreeNode2 = new TreeNode(2);
 		TreeNode *TreeNode3 = new TreeNode(3);

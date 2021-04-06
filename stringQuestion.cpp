@@ -81,6 +81,20 @@ bool isPalindrome(int x)
 	return x == rev || x == rev / 10;
 }
 
+int countBinarySubstrings(string s)
+{
+	int cur = 1, pre = 0, res = 0;
+	for (int i = 1; i < s.size(); ++i) {
+		if (s[i] == s[i - 1])++cur;
+		else {
+			res += min(pre, cur);
+			pre = cur;
+			cur = 1;
+		}
+	}
+	return res + min(pre, cur);
+}
+
 int longestPalindrome(string s)
 {
 	unordered_map<int, int>m;
@@ -117,3 +131,23 @@ int countSubstrings(string s)
 	return res;
 }
 
+std::string AddBigNumber::solve(string s, string t)
+{
+	// write code here
+	int len1 = s.size();
+	int len2 = t.size();
+	string res = "";
+	int carry = 0;
+	int i = len1 - 1, j = len2 - 1;
+	int sum = 0;
+	while (i >= 0 || j >= 0 || carry) {
+		int x = i < 0 ? 0 : s[i--] - '0';
+		int y = j < 0 ? 0 : t[j--] - '0';
+		sum = x + y + carry;
+		if (sum >= 10)carry = 1;
+		else carry = 0;
+		res = to_string(sum % 10) + res;
+	}
+
+	return res;
+}

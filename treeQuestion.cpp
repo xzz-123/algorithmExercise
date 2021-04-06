@@ -342,6 +342,29 @@ void postorderTraversal(TreeNode* root, vector<int>&res)
 	res.push_back(root->val);
 }
 
+std::vector<std::vector<int> > levelOrder(TreeNode* root)
+{
+	// write code here
+	vector<vector<int>> res;
+	if (root == nullptr)return res;
+	queue<TreeNode*>q;
+	q.push(root);
+	while (!q.empty()) {
+		vector<int>line;
+		int len = q.size();
+		for (int i = 0;i < len;++i) {
+			TreeNode*cur = q.front();
+			q.pop();
+			if (cur->left)q.push(cur->left);
+			if (cur->right)q.push(cur->right);
+			line.push_back(cur->val);
+		}
+		res.push_back(line);
+
+	}
+	return res;
+}
+
 TreeNode* trimBST(TreeNode* root, int low, int high)
 {
 	if (root == nullptr)return root;
@@ -526,6 +549,35 @@ std::vector<int> postorder(TreeNode* root)
 	}
 	vector<int>vec(res.begin(), res.end());
 	return vec;
+}
+
+std::vector<std::vector<int> > zigzagLevelOrder(TreeNode* root)
+{
+	// write code here
+	vector<vector<int>> res;
+	if (root == nullptr)return res;
+	queue<TreeNode*>q;
+	q.push(root);
+
+	while (!q.empty()) {
+		int n = q.size();
+		vector<int>level;
+		for (int i = 0;i < n;++i) {
+			TreeNode* cur = q.front();
+			q.pop();
+
+			if (res.size() % 2 == 0) {
+				level.push_back(cur->val);
+			}
+			else {
+				level.insert(level.begin(), cur->val);
+			}
+			if (cur->left)q.push(cur->left);
+			if (cur->right)q.push(cur->right);
+		}
+		res.push_back(level);
+	}
+	return res;
 }
 
 void Trie::insert(string word)

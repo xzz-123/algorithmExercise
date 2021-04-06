@@ -51,7 +51,38 @@ public:
 		return nums;
 	}
 };
+//有一个整数数组，请你根据快速排序的思路，找出数组中第K大的数。
 
+//给定一个整数数组a, 同时给定它的大小n和要找的K(K在1到n之间)，请返回第K大的数，保证答案存在。
+class Findkth {
+public:
+	int findKth(vector<int> a, int n, int K) {
+		// write code here
+
+		K = n - K;
+		int left = 0, right = n - 1;
+		while (left < right) {
+			int j = partition(a, left, right);
+			if (j < K)left = j + 1;
+			else if (j > K)right = j - 1;
+			else break;
+		}
+		return a[K];
+	}
+
+	int partition(vector<int>&a, int left, int right) {
+		int pivot = a[left];
+
+		int start = left;
+		while (left < right) {
+			while (left < right&&a[right] >= pivot)--right;
+			while (left < right&&a[left] <= pivot)++left;
+			if (left < right)swap(a[left], a[right]);
+		}
+		swap(a[start], a[left]);
+		return left;
+	}
+};
 class HeapSort {
 public:
 	void heapify(vector<int>&nums, int start, int end) {
