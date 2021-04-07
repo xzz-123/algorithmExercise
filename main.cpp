@@ -247,6 +247,12 @@ public:
 		return ret;
 	}
 	int main(){
+		CoinChange co;
+		vector<int>coins{ 1,2,5 };
+		int resc=co.coinChange(coins,11);
+		MinimumTotal mi;
+		vector<vector<int>>triangle = { {2}, {3, 4}, {6, 5, 7}, {4, 1, 8, 3} };
+		mi.minimumTotal(triangle);
 		auto ts = threeSum(vector<int>{1, 2, -2, -1});
 		int fn = Fibonacci(1000);
 		vector<vector<int>>matrix = { {1,2,3,4},{5,6,7,8},{9,10,11,12} };
