@@ -247,6 +247,17 @@ public:
 		return ret;
 	}
 	int main(){
+		FindLongestChain fin;
+		fin.findLongestChain(vector<vector<int>>{ {-6, 9}, { 1, 6 }, { 8, 10 }, { -1, 4 }, { -6, -2 }, { -9, 8 }, { -5, 3 }, { 0, 3 }});
+		LengthOfLIS leng;
+		leng.lengthOfLIS(vector<int>{10, 9, 2, 5, 3, 7, 101, 18});
+		NumberCodings nbc;
+		nbc.numDecodings("1123");
+		NumSquares numsq;
+		numsq.numSquares(12);
+		NumberOfArithmeticSlices nu;
+		
+		nu.numberOfArithmeticSlices(vector<int>{1,2,3,8,9,10});
 		CoinChange co;
 		vector<int>coins{ 1,2,5 };
 		int resc=co.coinChange(coins,11);

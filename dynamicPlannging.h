@@ -2,6 +2,7 @@
 #include <vector>
 #include<algorithm>
 #include <unordered_map>
+#include <numeric>
 using namespace std;
 //剪绳子
 //给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m-1] 。请问 k[0]*k[1]*...*k[m-1] 
@@ -324,4 +325,244 @@ public:
 		}
 		return dp[m - 1][n - 1];
 	}
+};
+
+class NumberOfArithmeticSlices {
+public:
+	int numberOfArithmeticSlices(vector<int>& nums) {
+		int len = nums.size();
+		if (len == 1)return 0;
+		vector<int>dp(len + 1);
+		dp[1] = 0;dp[2] = 0;
+		int pre = nums[1] - nums[0], cur, curlen = 0;
+		//pre记录i-1 th和 i-2th 的差，cur记录ith和i-1 th的差
+		//curlen记录以i-1 th结尾的arithmetic的个数
+		for (int i = 3;i <= len;++i) {
+			cur = nums[i - 1] - nums[i - 2];
+			if (pre == cur)++curlen;
+			else {
+				pre = cur;
+				curlen = 0;
+			}
+			//前i个元素组成的序列中airthmeic的个数==
+			//(1)第i个元素不和第i-1，i-2个元素等差，那么dp[i]=dp[i-1]
+			//(2)第i个元素和第i-1，i-2个元素等差，那么以i-1 th结尾的
+			//arithmetic们加上第i个元素，就又各自成了一个新的arithmetic，故
+			//dp[i]=dp[i-1]+curlen.
+			dp[i] = pre == cur ? dp[i - 1] + curlen : dp[i - 1];
+		}
+		return dp[len];
+	}
+};
+//343.整数拆分
+//给定一个正整数 n，将其拆分为至少两个正整数的和，并使这些整数的乘积最大化。 返回你可以获得的最大乘积
+class IntergerBreak {
+public:
+	int integerBreak(int n) {
+		if (n == 2)return 1;
+
+		vector<int>dp(n + 1);
+		dp[2] = 1;
+		for (int i = 3;i <= n;++i) {
+			for (int j = 2;j <= i - 1;++j) {
+				dp[i] = max(dp[i], max(j*dp[i - j], j*(i - j)));
+			}
+		}
+		return dp[n];
+	}
+};
+//279. Perfect Squares
+//Given an integer n, return the least number of perfect square numbers that sum to n.
+//
+//A perfect square is an integer that is the square of an integer; in other words, it is the product of some integer with itself.
+//For example, 1, 4, 9, and 16 are perfect squares while 3 and 11 are not.
+class NumSquares {
+public:
+	int numSquares(int n) {
+		vector<int>dp(n + 1, n);
+		dp[0] = 0;
+		for (int i = 1;i <= n;++i) {
+			for (int j = 1;j*j <= i;++j) {
+				dp[i] = min(dp[i - j * j] + 1, dp[i]);
+			}
+		}
+		return dp[n];
+	}
+};
+//91.解码方法
+//一条包含字母 A - Z 的消息通过以下映射进行了 编码 ：
+//
+//'A' -> 1
+//'B' -> 2
+//...
+//'Z' -> 26
+//要 解码 已编码的消息，所有数字必须基于上述映射的方法，反向映射回字母（可能有多种方法）。例如，"111" 可以将 "1" 中的每个 "1" 映射为 "A" ，从而得到 "AAA" ，或者可以将 "11" 和 "1"（分别为 "K" 和 "A" ）映射为 "KA" 。注意，"06" 不能映射为 "F" ，因为 "6" 和 "06" 不同。
+//
+//给你一个只含数字的 非空 字符串 num ，请计算并返回 解码 方法的 总数 。
+//
+//题目数据保证答案肯定是一个 32 位 的整数。
+class NumberCodings {
+public:
+	int numDecodings(string s) {
+		if (s[0] == '0')return 0;
+		int n = s.size();
+		vector<int> dp(n + 1);
+		dp[0] = 1;
+		dp[1] = 1;
+		for (int i = 2;i <= n;++i) {
+			//0前面必须是1或者2，不然就无解
+			if (s[i-1]=='0')
+			{
+				if (s[i - 2] =='1'||s[i-2]=='2')dp[i] = dp[i-2];
+				else return 0;
+			}
+			//ith可以和i-1th构成一个数，也可以算做两个数
+			else if(s[i - 2]=='1'||s[i-2]=='2'&&s[i-1]>='1'&&s[i-1]<='6')
+			{
+				dp[i] = dp[i - 1] + dp[i-2];
+			}
+			//ith无法和i-1th 构成一个数，只能算作两个数
+			else dp[i] = dp[i - 1];
+		}
+		return dp[n];
+	}
+};
+//300. Longest Increasing Subsequence(Medium)
+//给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
+//
+//子序列是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3, 6, 2, 7] 是数组[0, 3, 1, 6, 2, 2, 7] 的子序列。
+
+class LengthOfLIS {
+public:
+	int lengthOfLIS(vector<int>& nums) {
+		int n = nums.size();
+		if (n == 1)return 1;
+		//dp[i]:nums[0]~nums[i]以nums[i]结尾的最长递增子序列长度
+		vector<int>dp(n, 1);
+		dp[0] = 1;
+		int ret = 0;
+
+		for (int i = 1;i < n;++i) {
+			for (int j = i - 1;j >= 0;--j)
+			{
+				if (nums[i] > nums[j])
+				{
+					dp[i] = max(dp[i], dp[j] + 1);
+				}
+			}
+			ret = max(ret, dp[i]);
+		}
+		return ret;
+	}
+
+};
+//646. 最长数对链
+//给出 n 个数对。 在每一个数对中，第一个数字总是比第二个数字小。
+//
+//现在，我们定义一种跟随关系，当且仅当 b < c 时，数对(c, d) 才可以跟在(a, b) 后面。我们用这种形式来构造一个数对链。
+//
+//	给定一个数对集合，找出能够形成的最长数对链的长度。你不需要用到所有的数对，你可以以任何顺序选择其中的一些数对来构造
+//本质就是最长上升子序列
+class FindLongestChain {
+public:
+	static bool com(vector<int>a, vector<int>b) {
+		return a[0]<b[0];
+	}
+	int findLongestChain(vector<vector<int>>& pairs) {
+		int n = pairs.size();
+		vector<int>dp(n,1);
+		sort(pairs.begin(), pairs.end(), com);
+		dp[0] = 1;
+		int ret = 0;
+		for (int i = 1;i < n;++i) {
+			for (int j = i - 1;j >= 0;--j) {
+				if (pairs[i][0] > pairs[j][1])
+					dp[i] = max(dp[i], dp[j] + 1);
+			}
+			ret = max(ret, dp[i]);
+		}
+		return ret;
+	}
+};
+//用贪心算法
+class FindLongestChain2 {
+public:
+	static bool cmp(vector<int>a, vector<int>b) {
+		return a[1] < b[1];
+	}
+	int findLongestChain(vector<vector<int>>& pairs) {
+		int n = pairs.size();
+		sort(pairs.begin(), pairs.end(), cmp);
+		int pre = pairs[0][1];
+		int count = 1;
+		for (int i = 1;i < n;++i) {
+			if (pairs[i][0] > pre)
+			{
+				++count;
+				pre = pairs[i][1];
+			}
+		}
+		return count;
+	}
+};
+//376. Wiggle Subsequence
+//Medium
+//
+//A wiggle sequence is a sequence where the differences between successive numbers strictly alternate between positive and negative.The first difference(if one exists) may be either positive or negative.A sequence with two or fewer elements is trivially a wiggle sequence.
+//
+//For example, [1, 7, 4, 9, 2, 5] is a wiggle sequence because the differences(6, -3, 5, -7, 3) alternate between positive and negative.
+//In contrast, [1, 4, 7, 2, 5] and [1, 7, 4, 5, 5] are not wiggle sequences.The first is not because its first two differences are positive, and the second is not because its last difference is zero.
+//A subsequence is obtained by deleting some elements(possibly zero) from the original sequence, leaving the remaining elements in their original order.
+//
+//Given an integer array nums, return the length of the longest wiggle subsequence of nums.
+class WiggleMaxLength {
+public:
+	int wiggleMaxLength(vector<int>& nums) {
+		int n = nums.size();
+		//up表示当前到位置为止最大的上升子序列的长度，down则相反
+		//初始时都为1
+		int up = 1, down = 1;
+		for (int i = 1;i < n;++i) {
+			//此时能接在前面的最大下降子序列的后面
+			if (nums[i] > nums[i - 1]) {
+				up = down + 1;
+			}//此时能接在前面的最大上升子序列的后面
+			else if (nums[i] < nums[i - 1]) {
+				down = up + 1;
+			}
+		}
+		return max(up, down);
+	}
+};
+//416. 分割等和子集
+//给定一个只包含正整数的非空数组。是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。
+class CanPartition {
+public:
+	//转化为01背包问题
+	bool canPartition(vector<int>& nums) {
+		int sum = accumulate(nums.begin(), nums.end(), 0);
+		int maxNum = *max_element(nums.begin(), nums.end());
+		int n = nums.size();
+		if (n < 2)return false;
+
+		if (sum &1)return false;
+		sum /= 2;
+		if (maxNum>sum)
+		{
+			return false;
+		}
+		//dp[i][j]：从nums[0]到nums[i]中任选数字，加起来可以等于j就为true，否则为false
+		vector<vector<int>>dp(n, vector<int>(sum + 1, false));
+		for (int i = 0;i < n;++i)dp[i][0] = true;
+		dp[0][nums[0]] = true;
+		for (int i = 1;i < n;++i) {
+			for (int j = 1;j <= sum;++j) {
+				if (nums[i] > j)dp[i][j] = dp[i - 1][j];
+				else dp[i][j] = max(dp[i - 1][j - nums[i]], dp[i - 1][j]);
+			}
+		}
+		return dp[n - 1][sum];
+	}
+
+
 };
