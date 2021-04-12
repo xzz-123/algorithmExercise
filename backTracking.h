@@ -4,6 +4,48 @@
 #include <numeric>
 #include <set>
 using namespace std;
+//77. 组合
+//给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合
+class Combine {
+public:
+	vector<vector<int>>res;
+	vector<int>cur;
+
+	vector<vector<int>> combine(int n, int k) {
+		helper(n, 1, k);
+		return res;
+	}
+	void helper(int n, int ind, int k) {
+		if (cur.size() == k) {
+			res.push_back(cur);return;
+		}
+		for (int i = ind;i <= n;++i) {
+			cur.push_back(i);
+			helper(n, i + 1, k);
+			cur.pop_back();
+		}
+	}
+};
+//与下面是同一个问题，回溯法的不同写法
+class Subsets {
+public:
+	vector<vector<int>>res;
+	vector<int>cur;
+	vector<vector<int>> subsets(vector<int>& nums) {
+		int n = nums.size();
+		helper(0, nums);
+		return res;
+	}
+
+	void helper(int ind, vector<int>&nums) {
+		for (int i = ind;i < nums.size();++i) {
+			cur.push_back(nums[i]);
+			res.push_back(cur);
+			helper(i + 1, nums);
+			cur.pop_back();
+		}
+	}
+};
 //nums中元素不重复，找到所有不重复的子集
 class Subsets1 {
 public:
@@ -26,6 +68,26 @@ public:
 		helper(res, cur, nums, index + 1);
 	}
 };
+class SubsetsWithDup {
+public:
+	vector<int>cur;
+	vector<vector<int>>res;
+	vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+		sort(nums.begin(), nums.end());
+		backTrak(nums, 0);
+		return res;
+	}
+	void backTrak(vector<int>&nums, int start) {
+		for (int i = start;i < nums.size();++i) {
+			if (i > start&&nums[i] == nums[i - 1])continue;
+			cur.push_back(nums[i]);
+			res.push_back(cur);
+			backTrak(nums, i + 1);
+			cur.pop_back();
+		}
+	}
+};
+
 //nums元素有重复，找到所有不重复的子集
 class Subsets2 {
 public:
@@ -99,7 +161,7 @@ public:
 	void solveSudoku(vector<vector<char>>& board) {
 		helper(board, 0, 0);
 	}
-
+	
 	bool helper(vector<vector<char>>&board, int rowIndex, int colIndex) {
 		if (rowIndex == 9) {
 			return true;
@@ -126,11 +188,6 @@ public:
 			if (cur[rowIndex][i] == n+'0')return false;
 			if (cur[i][colIndex] == n + '0')return false;
 		}
-
-		
-			
-	
-
 		int rb = rowIndex / 3, cb = colIndex / 3;
 		for (int i = rb * 3;i < rb * 3 + 3;++i) {
 			for (int j = cb * 3;j < cb * 3 + 3;++j) {
@@ -329,3 +386,61 @@ public:
 	}
 
 };
+//131. 分割回文串
+//给你一个字符串 s，请你将 s 分割成一些子串，使每个子串都是 回文串 。返回 s 所有可能的分割方案。
+//
+//回文串 是正着读和反着读都一样的字符串
+class Partition {
+public:
+	vector<vector<string>>res;
+	vector<string>cur;
+	vector<vector<bool>>dp;
+	vector<vector<string>> partition(string s) {
+		int n = s.size();
+		dp.assign(n, vector<bool>(n, true));
+		for (int i = n - 1;i >= 0;--i) {
+			for (int j = i + 1;j < n;++j) {
+				dp[i][j] = dp[i + 1][j - 1] && s[i] == s[j];
+			}
+		}
+		helper(0, s);
+
+		return res;
+	}
+	//用dp预处理，dp[i][j]表示s[i]~s[j]的字符串是否为回文串
+	void helper(int ind, string s) {
+		if (ind == s.size()) {
+			res.push_back(cur);
+			return;
+		}
+		for (int i = ind;i < s.size();++i) {
+			if (dp[ind][i]) {
+				cur.push_back(s.substr(ind, i - ind + 1));
+				helper(i + 1, s);
+				cur.pop_back();
+			}
+		}
+	}
+	
+	/*bool isPalindrome(string s, int i, int j) {
+		while (i <= j) {
+			if (s[i++] != s[j--])
+				return false;
+		}                                                          
+		return true;
+	}
+	void helper(int ind, string s) {
+		if (ind == s.size()) {
+			res.push_back(cur);
+			return;
+		}
+		for (int i = ind;i < s.size();++i) {
+			if (isPalindrome(s, ind, i)) {
+				cur.push_back(s.substr(ind, i - ind + 1));
+				helper(i + 1, s);
+				cur.pop_back();
+			}
+		}
+	}*/
+};
+

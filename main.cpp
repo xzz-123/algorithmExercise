@@ -246,7 +246,27 @@ public:
 		}
 		return ret;
 	}
-	int main(){
+	int main() {
+		
+		vector<vector<char>>board233 = {{'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+			{'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+			{'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+			{'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+			{'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+			{'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+			{'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+			{'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+			{'.', '.', '.', '.', '8', '.', '.', '7', '9'}};
+
+		SudokuSolver sud;
+		sud.solveSudoku(board233);
+		
+		SubsetsWithDup sw;
+		sw.subsetsWithDup(vector<int>{1, 2, 2});
+		Subsets sb;
+		sb.subsets(vector<int>{1, 2, 3});
+		FindTargetSumWays fts;
+		fts.findTargetSumWays(vector<int>{ 1, 1, 1, 1, 1 }, 3);
 		FindLongestChain fin;
 		fin.findLongestChain(vector<vector<int>>{ {-6, 9}, { 1, 6 }, { 8, 10 }, { -1, 4 }, { -6, -2 }, { -9, 8 }, { -5, 3 }, { 0, 3 }});
 		LengthOfLIS leng;
