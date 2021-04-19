@@ -11,24 +11,11 @@
 #include "Sort.h"
 #include "stringQuestion.h"
 #include "dynamicPlannging.h"
+#include "greedy.h"
+#include "graph.h"
 using namespace std;
 
-class Solution {
-public:
-	int lengthOfLIS(vector<int>& nums) {
-		int n = nums.size();
-		if (n < 2)return n;
-		vector<int>dp(n, 0);
-		for (int i = 0; i < n; ++i){
-			dp[i] = 1;
-			for (int j = 0; j < i; ++j){
-				if (nums[i] > nums[j])
-					dp[i] = max(dp[i], dp[j] + 1);
-			}
-		}
-		return *max_element(dp.begin(), dp.end());
-	}
-};
+
 
 //最多交易两次
 	int maxProfit2(vector<int>& prices) {
@@ -246,8 +233,42 @@ public:
 		}
 		return ret;
 	}
+	
 	int main() {
-		
+		LongestValidParentheses1 lvp1;
+		lvp1.longestValidParentheses1("(()");
+		LongestValidParentheses lvp;
+		lvp.longestValidParentheses(")()())");
+		LongestPalindrome lp;
+		lp.longestPalindrome(string("aacabdkacaa"));
+		FindRedundantDirectedConnection frd;
+		frd.findRedundantDirectedConnection(vector<vector<int>>{ {1, 2}, { 1, 3 }, { 2, 3 }});
+		FindCircleNum fc;
+		fc.findCircleNum(vector<vector<int>>{ {1, 1, 0},{1, 1, 0},{0, 0, 1} });
+		CalcEquation ce;
+		CalcEquation1 ce1;
+		CalcEquation2 ce2;
+		ce2.calcEquation(vector<vector<string>>{{"x1", "x2"}, {"x2", "x3"}, {"x3", "x4"}, {"x4", "x5"}},
+			vector<double>{3.0, 4.0, 5.0, 6.0},
+			vector<vector<string>>{{"x1", "x5"}, {"x5", "x2"}, {"x2", "x4"}, {"x2", "x2"}, {"x2", "x9"}, {"x9", "x9"}});
+		Surrounded sd;
+		vector<vector<char>>ac
+		{ {'X', 'O', 'X', 'X'}, {'O', 'X', 'O', 'X'}, {'X', 'O', 'X', 'O'},
+{'O', 'X', 'O', 'X'}, {'X', 'O', 'X', 'O'}, {'O', 'X', 'O', 'X'} };
+		sd.solve(ac);
+		LongestConsecutive lc;
+		lc.longestConsecutive(vector<int>{100, 4, 200, 1, 3, 2});
+		ReconstructQueue rec;
+		vector<vector<int>>vec1= {{40, 11}, {81, 12}, {32, 60}, {36, 39}, {76, 19}, {11, 37}, {67, 13}, {45, 39}, {99, 0}, {35, 20}, {15, 3}, {62, 13}, {90, 2}, {86, 0}, {26, 13}, {68, 32}, {91, 4}, {23, 24}, {73, 14}, {86, 13}, {62, 6}, {36, 13}, {67, 9}, {39, 57}, {15, 45}, {37, 26}, {12, 88}, {30, 18}, {39, 60}, {77, 2}, {24, 38}, {72, 7}, {96, 1}, {29, 47}, {92, 1}, {67, 28}, {54, 44}, {46, 35}, {3, 85}, {27, 9}, {82, 14}, {29, 17}, {80, 11}, {84, 10}, {5, 59}, {82, 6}, {62, 25}, {64, 29}, {88, 8}, {11, 20}, {83, 0}, {94, 4}, {43, 42}, {73, 9}, {57, 32}, {76, 24}, {14, 67}, {86, 2}, {13, 47}, {93, 1}, {95, 2}, {87, 8}, {8, 78}, {58, 16}, {26, 75}, {26, 15}, 
+			{24, 56}, {69, 9}, {42, 22}, {70, 17}, {34, 48}, {26, 39}, {22, 28}, {21, 8}, {51, 44}, {35, 4}, {25, 48}, {78, 18}
+			, {29, 30}, {13, 63}, {68, 8}, {21, 38}, {56, 20}, {84, 14}, {56, 27}, {60, 40}, {98, 0}, {63, 7}, {27, 46}, {70, 
+			13}, {29, 23}, {49, 6}, {5, 64}, {67, 11}, {2, 31}, {59, 8}, {93, 0}, {50, 39}, {84, 6}, {19, 39}};
+		auto res11=rec.reconstructQueue(vec1);
+		vector<vector<int>>matrix = { {1,2,3,4},{5,6,7,8},{9,10,11,12} };
+		spiralOrder(matrix);
+
+		Shopping_offer sh;
+		sh.shoppingOffers(vector<int>{ 2, 5 }, vector<vector<int>>{ {3, 0, 5}, { 1, 2, 10 } }, vector<int>{ 3, 2 });
 		vector<vector<char>>board233 = {{'5', '3', '.', '.', '7', '.', '.', '.', '.'},
 			{'6', '.', '.', '1', '9', '5', '.', '.', '.'},
 			{'.', '9', '8', '.', '.', '.', '.', '6', '.'},
@@ -286,8 +307,7 @@ public:
 		mi.minimumTotal(triangle);
 		auto ts = threeSum(vector<int>{1, 2, -2, -1});
 		int fn = Fibonacci(1000);
-		vector<vector<int>>matrix = { {1,2,3,4},{5,6,7,8},{9,10,11,12} };
-		spiralOrder(matrix);
+		
 		AddBigNumber ad;
 		string ress = ad.solve("11", "123");
 		TreeNode *TreeNode1 = new TreeNode(1);
@@ -335,8 +355,7 @@ public:
 		vector<vector<char>>board = {vector<char>{'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'}};
 		string word = "ABCCED";
 		p.exist(board, word);
-		Shopping_offer sh;
-		sh.shoppingOffers(vector<int>{ 2, 5 }, vector<vector<int>>{ {3, 0, 5}, {1, 2, 10} }, vector<int>{ 3, 2 });
+		
 		/*SudokuSolver s;
 		vector<vector<char>> board  ={ vector<char>{'5', '3', '.', '.', '7', '.', '.', '.', '.'},
 			vector<char>{'6', '.', '.', '1', '9', '5', '.', '.', '.'},

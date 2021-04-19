@@ -3,6 +3,7 @@
 #include<algorithm>
 #include <unordered_map>
 #include <numeric>
+#include <stack>
 using namespace std;
 //剪绳子
 //给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m-1] 。请问 k[0]*k[1]*...*k[m-1] 
@@ -161,9 +162,7 @@ public:
 				if (i >= coins[j])
 					dp[i] = min(dp[i - coins[j]] + 1, dp[i]);
 			}
-
-
-		}
+  		}
 		if (dp[amount] == amount + 1)return -1;
 		return dp[amount];
 	}
@@ -558,11 +557,215 @@ public:
 		for (int i = 1;i < n;++i) {
 			for (int j = 1;j <= sum;++j) {
 				if (nums[i] > j)dp[i][j] = dp[i - 1][j];
-				else dp[i][j] = max(dp[i - 1][j - nums[i]], dp[i - 1][j]);
+				else dp[i][j] = dp[i - 1][j - nums[i]]||dp[i - 1][j];
 			}
 		}
 		return dp[n - 1][sum];
 	}
 
 
+};
+
+//494. Target Sum
+//
+//You are given a list of non - negative integers, a1, a2, ..., an, and a target, S.Now you have 2 symbols + and -.For each integer, you should choose one from + and -as its new symbol.
+//
+//Find out how many ways to assign symbols to make sum of integers equal to target S.
+class FindTargetSumWays {
+public:
+	int findTargetSumWays(vector<int>& nums, int S) {
+		int sum = accumulate(nums.begin(), nums.end(), 0);
+		if (sum < S || (sum + S) & 1)return 0;
+		int target = (S + sum) >> 1;
+		int n = nums.size();
+		vector<int>dp(target + 1);
+		dp[0] = 1;
+		for (int num : nums) {
+			for (int i = target;i >= 0;--i) {
+				if (i >= num)
+					dp[i] = dp[i] + dp[i - num];
+			}
+		}
+		return dp[target];
+	}
+};
+//5. Longest Palindromic Substring
+//Given a string s, return the longest palindromic substring in s.
+
+//解法1：dp，dp[i][j]表示s[i]~s[j]的子串是否为回文串
+//时间复杂度：O(N²)
+//空间复杂度：O(N²)
+class LongestPalindrome {
+public:
+	string longestPalindrome(string s) {
+		int len = s.size();
+		vector<vector<bool>>dp(len, vector<bool>(len));
+		int maxlen = 0,l=0;
+		for (int i = len - 1;i >= 0;--i) {
+			for (int j = i;j < len;++j) {
+				//状态转移  dp[i][j]=(s[i]==s[j]&&(j-i<3||dp[i+1][j-1]))
+				if (s[i]==s[j])
+				{
+					if (j-i<3||dp[i+1][j-1])
+					{
+						dp[i][j] = true;
+						//动态维护最大回文子串
+						if (j - i + 1 > maxlen)//res = s.substr(i, j - i + 1);
+						{
+							maxlen = j - i + 1;l = i;
+						}
+					}
+					else
+					{
+						dp[i][j] = false;
+					}
+				}
+				else
+				{
+					dp[i][j] = false;
+				}
+			}
+		}
+		return s.substr(l,maxlen);
+	}
+};
+//解法2：中心扩展法
+//以每个字符为中心，向两边尽可能的扩展
+//时间复杂度：O(N²)
+//空间复杂度：O(1)
+class LongestPalindrome1 {
+public:
+	string res;
+	string longestPalindrome(string s) {
+		int len = s.size();
+		int maxlen = 0, l = 0;
+		for (int i = 0;i < len;++i) {
+			extend(s, i, i);	//回文串长度为奇数
+			extend(s, i, i + 1);//回文串长度为偶数
+		}
+
+		return res;
+	}
+
+	void extend(string s, int i, int j) {
+		while (i >= 0 && j < s.size() && s[i] == s[j]) {
+			--i;++j;
+		}
+		if (j - i - 1 > res.size()) {
+			res = s.substr(i + 1, j - i - 1);
+		}
+	}
+};
+//32. Longest Valid Parentheses
+//Given a string containing just the characters '(' and ')', find the length of the longest valid(well - formed) parentheses substring.
+class LongestValidParentheses {
+public:
+	bool isValid(string s) {
+		stack<char>stk;
+
+		int len = s.size();
+		for (char c : s) {
+			if (c == '(')stk.push(c);
+			else if (!stk.empty() && stk.top() == '(')stk.pop();
+			else return false;
+		}
+		return stk.empty();
+	}
+	int longestValidParentheses(string s) {
+		int len = s.size();
+		int res = 0;
+		for (int i = 0;i < len;++i) {
+			for (int j = 2;i+j-1<len;j += 2) {
+				if (isValid(s.substr(i, j))) {
+					res = max(res, j);continue;
+				}
+			}
+		}
+		return res;
+	}
+
+};
+//解法2 dp
+//dp[i]表示以s[i]结尾的最大合理子串长度
+//思路：遍历一遍，ans=max(s[i])；0<=i<len;如果s[i]=='(',那么dp[i]==0;
+//状态转移:s[i]==')'&&s[i-1]=='(',那么dp[i] =2+dp[i - 2];
+//		 s[i]==')'&&s[i-1]==')'&&s[i-dp[i-1]-1]=='(',那么dp[i]=2+dp[i-1]+dp[i-dp[i-1]-2];
+//时间复杂度 O(n)，空间复杂度 O(n)。
+class LongestValidParentheses1 {
+public:
+	int longestValidParentheses1(string s) {
+		int len = s.size();
+		vector<int>dp(len);
+		
+		int res =0;
+		for (int i = 1;i < len;++i) {
+			if (s[i] == ')') {
+				if (s[i - 1] == '(')dp[i] =2+(i-2>=0?dp[i - 2]:0);
+				else {
+					if (i - dp[i - 1] - 1 >= 0 && s[i - dp[i - 1] - 1] == '(')
+						dp[i] = dp[i - 1] + 2 + ((i - dp[i - 1] - 2) < 0 ? 0 : dp[i - dp[i - 1] - 2]);
+				}
+				res = max(res, dp[i]);
+			}
+		}
+		return res;
+	}
+};
+//解法3：栈，其实思想与dp有类似之处，只不过把dp[i]的计算用栈来实现
+//栈底永远存的是当前遍历过的字符串中上一个没有被匹配的右括号的下标。上一个没有被匹配的右括号的下标可以理解为每段括号匹配之间的“隔板”。
+//例如，())((()))，第三个括号，即为左右 2 段正确的括号匹配中间的“隔板”。“隔板”的存在影响计算最长括号长度。如果不存在“隔板”，
+//前后 2 段正确的括号匹配应该“融合”在一起，最长长度为 2 + 6 = 8，但是这里存在了“隔板”，所以最长长度仅为 6。
+//具体做法：遍历一遍，碰到'('就将其下标入栈，
+//碰到')'就pop，表示和栈顶的'('配对，然后看栈空不空，不空dp[i]=i-stk.top(),空的话dp[i]=0，把i入栈。
+//需要注意初始化时，不存在上一个没有被匹配的右括号的下标，那么将 -1 放入栈中，充当下标为 0 的“隔板”。
+//时间复杂度 O(n)，空间复杂度 O(n)。
+class LongestValidParentheses2 {
+public:
+	int longestValidParentheses(string s) {
+		int len = s.size();
+		stack<int>stk;
+		stk.push(-1);
+		int res = 0;
+		for (int i = 0;i < len;++i) {
+			if (s[i] == '(')stk.push(i);
+			else {
+				stk.pop();
+				if (stk.empty())stk.push(i);
+				else res = max(res, i - stk.top());
+			}
+
+		}
+		return res;
+	}
+};
+//解法4，双指针。
+//与最大子数组和相似的思想
+//从左到右遍历，分别记录'('和')'的个数为left，right，如果right>left，那么到目前为止的所有字符对更右边的dp[i]都不会有贡献了，把right和left都归0，如果right==left,dp[i]==2*left;
+//从右往左遍历，分别记录'('和')'的个数为left，right，如果right<left，那么到目前为止的所有字符对更左边的dp[i]都不会有贡献了，把right和left都归0，如果right==left,dp[i]==2*left;
+//时间复杂度 O(n)，空间复杂度 O(1)。
+class LongestValidParentheses3 {
+public:
+	int longestValidParentheses(string s) {
+		int len = s.size();
+		int left = 0, right = 0;
+		int res = 0;
+		for (int i = 0;i < len;++i) {
+			if (s[i] == '(')left++;
+			if (s[i] == ')')right++;
+			if (left == right)res = max(res, 2 * right);
+			else if (right > left) {
+				left = 0;right = 0;
+			}
+		}
+		left = 0;right = 0;
+		for (int i = len - 1;i >= 0;--i) {
+			if (s[i] == '(')left++;
+			if (s[i] == ')')right++;
+			if (left == right)res = max(res, 2 * right);
+			else if (left > right) {
+				left = 0;right = 0;
+			}
+		}
+		return res;
+	}
 };

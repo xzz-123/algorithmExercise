@@ -196,6 +196,7 @@ bool validColor(vector<vector<int>>&graph, vector<int>&colors, int color, int no
 
 std::vector<int> spiralOrder(vector<vector<int> > &matrix)
 {
+	
 	int rows = matrix.size(), cols = matrix[0].size();
 	int total = rows * cols;
 	vector<int>res;
@@ -234,7 +235,7 @@ std::vector<std::vector<int> > threeSum(vector<int> &num)
 			if (num[i] > 0)break;
 			while (left < right) {
 				while (left < right&&num[i] + num[left] + num[right] > 0)right--;
-				if (num[i] + num[left] + num[right] == 0) {
+				if (left < right&&num[i] + num[left] + num[right] == 0) {
 					vector<int>vec = { num[i],num[left],num[right] };
 					res.push_back(vec);
 					int curleft = num[left];

@@ -155,10 +155,11 @@ public:
 		return true;
 	}
 };
-
+extern const int aaa;
 class SudokuSolver {
 public:
 	void solveSudoku(vector<vector<char>>& board) {
+		
 		helper(board, 0, 0);
 	}
 	
@@ -232,6 +233,7 @@ private:
 public:
 
 	int shoppingOffers(vector<int>& price, vector<vector<int>>& special, vector<int>& needs) {
+
 		min = inner_product(price.begin(), price.end(), needs.begin(), 0);
 		helper(price, special, needs, 0, 0);
 		return min;
