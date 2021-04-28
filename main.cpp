@@ -235,126 +235,141 @@ using namespace std;
 	}
 	
 	int main() {
-		LongestValidParentheses1 lvp1;
-		lvp1.longestValidParentheses1("(()");
-		LongestValidParentheses lvp;
-		lvp.longestValidParentheses(")()())");
-		LongestPalindrome lp;
-		lp.longestPalindrome(string("aacabdkacaa"));
-		FindRedundantDirectedConnection frd;
-		frd.findRedundantDirectedConnection(vector<vector<int>>{ {1, 2}, { 1, 3 }, { 2, 3 }});
-		FindCircleNum fc;
-		fc.findCircleNum(vector<vector<int>>{ {1, 1, 0},{1, 1, 0},{0, 0, 1} });
-		CalcEquation ce;
-		CalcEquation1 ce1;
-		CalcEquation2 ce2;
-		ce2.calcEquation(vector<vector<string>>{{"x1", "x2"}, {"x2", "x3"}, {"x3", "x4"}, {"x4", "x5"}},
-			vector<double>{3.0, 4.0, 5.0, 6.0},
-			vector<vector<string>>{{"x1", "x5"}, {"x5", "x2"}, {"x2", "x4"}, {"x2", "x2"}, {"x2", "x9"}, {"x9", "x9"}});
-		Surrounded sd;
-		vector<vector<char>>ac
-		{ {'X', 'O', 'X', 'X'}, {'O', 'X', 'O', 'X'}, {'X', 'O', 'X', 'O'},
-{'O', 'X', 'O', 'X'}, {'X', 'O', 'X', 'O'}, {'O', 'X', 'O', 'X'} };
-		sd.solve(ac);
-		LongestConsecutive lc;
-		lc.longestConsecutive(vector<int>{100, 4, 200, 1, 3, 2});
-		ReconstructQueue rec;
-		vector<vector<int>>vec1= {{40, 11}, {81, 12}, {32, 60}, {36, 39}, {76, 19}, {11, 37}, {67, 13}, {45, 39}, {99, 0}, {35, 20}, {15, 3}, {62, 13}, {90, 2}, {86, 0}, {26, 13}, {68, 32}, {91, 4}, {23, 24}, {73, 14}, {86, 13}, {62, 6}, {36, 13}, {67, 9}, {39, 57}, {15, 45}, {37, 26}, {12, 88}, {30, 18}, {39, 60}, {77, 2}, {24, 38}, {72, 7}, {96, 1}, {29, 47}, {92, 1}, {67, 28}, {54, 44}, {46, 35}, {3, 85}, {27, 9}, {82, 14}, {29, 17}, {80, 11}, {84, 10}, {5, 59}, {82, 6}, {62, 25}, {64, 29}, {88, 8}, {11, 20}, {83, 0}, {94, 4}, {43, 42}, {73, 9}, {57, 32}, {76, 24}, {14, 67}, {86, 2}, {13, 47}, {93, 1}, {95, 2}, {87, 8}, {8, 78}, {58, 16}, {26, 75}, {26, 15}, 
-			{24, 56}, {69, 9}, {42, 22}, {70, 17}, {34, 48}, {26, 39}, {22, 28}, {21, 8}, {51, 44}, {35, 4}, {25, 48}, {78, 18}
-			, {29, 30}, {13, 63}, {68, 8}, {21, 38}, {56, 20}, {84, 14}, {56, 27}, {60, 40}, {98, 0}, {63, 7}, {27, 46}, {70, 
-			13}, {29, 23}, {49, 6}, {5, 64}, {67, 11}, {2, 31}, {59, 8}, {93, 0}, {50, 39}, {84, 6}, {19, 39}};
-		auto res11=rec.reconstructQueue(vec1);
-		vector<vector<int>>matrix = { {1,2,3,4},{5,6,7,8},{9,10,11,12} };
-		spiralOrder(matrix);
+		Exist exi;
 
-		Shopping_offer sh;
-		sh.shoppingOffers(vector<int>{ 2, 5 }, vector<vector<int>>{ {3, 0, 5}, { 1, 2, 10 } }, vector<int>{ 3, 2 });
-		vector<vector<char>>board233 = {{'5', '3', '.', '.', '7', '.', '.', '.', '.'},
-			{'6', '.', '.', '1', '9', '5', '.', '.', '.'},
-			{'.', '9', '8', '.', '.', '.', '.', '6', '.'},
-			{'8', '.', '.', '.', '6', '.', '.', '.', '3'},
-			{'4', '.', '.', '8', '.', '3', '.', '.', '1'},
-			{'7', '.', '.', '.', '2', '.', '.', '.', '6'},
-			{'.', '6', '.', '.', '.', '.', '2', '8', '.'},
-			{'.', '.', '.', '4', '1', '9', '.', '.', '5'},
-			{'.', '.', '.', '.', '8', '.', '.', '7', '9'}};
-
-		SudokuSolver sud;
-		sud.solveSudoku(board233);
-		
-		SubsetsWithDup sw;
-		sw.subsetsWithDup(vector<int>{1, 2, 2});
-		Subsets sb;
-		sb.subsets(vector<int>{1, 2, 3});
-		FindTargetSumWays fts;
-		fts.findTargetSumWays(vector<int>{ 1, 1, 1, 1, 1 }, 3);
-		FindLongestChain fin;
-		fin.findLongestChain(vector<vector<int>>{ {-6, 9}, { 1, 6 }, { 8, 10 }, { -1, 4 }, { -6, -2 }, { -9, 8 }, { -5, 3 }, { 0, 3 }});
-		LengthOfLIS leng;
-		leng.lengthOfLIS(vector<int>{10, 9, 2, 5, 3, 7, 101, 18});
-		NumberCodings nbc;
-		nbc.numDecodings("1123");
-		NumSquares numsq;
-		numsq.numSquares(12);
-		NumberOfArithmeticSlices nu;
-		
-		nu.numberOfArithmeticSlices(vector<int>{1,2,3,8,9,10});
-		CoinChange co;
-		vector<int>coins{ 1,2,5 };
-		int resc=co.coinChange(coins,11);
-		MinimumTotal mi;
-		vector<vector<int>>triangle = { {2}, {3, 4}, {6, 5, 7}, {4, 1, 8, 3} };
-		mi.minimumTotal(triangle);
-		auto ts = threeSum(vector<int>{1, 2, -2, -1});
-		int fn = Fibonacci(1000);
-		
-		AddBigNumber ad;
-		string ress = ad.solve("11", "123");
-		TreeNode *TreeNode1 = new TreeNode(1);
-		TreeNode *TreeNode2 = new TreeNode(2);
-		TreeNode *TreeNode3 = new TreeNode(3);
-		TreeNode *TreeNode4 = new TreeNode(4);
-		TreeNode *TreeNode5 = new TreeNode(5);
-		TreeNode *TreeNode6 = new TreeNode(6);
-		TreeNode *TreeNode7 = new TreeNode(7);
-		TreeNode4->left = TreeNode2;
-		TreeNode4->right = TreeNode6;
-		TreeNode2->left = TreeNode1;
-		TreeNode2->right = TreeNode3;
-		TreeNode6->left = TreeNode5;
-		TreeNode6->right = TreeNode7;
-		
-		vector<int>res1 = postorder(TreeNode4);
-		vector<int>res2 = inorderTraversal_iteratively(TreeNode4);
-		vector<int>nums1 = { 5,2,3,1 };
-		SelectSort se;
-		se.sortArray(nums1);
-		BubbleSort b;
-		b.sortArray(nums1);
-		QuickSort q;
-		
-		//q.sortArray(nums1);
-		HeapSort h;
-		//h.heapSort(nums1);
-		MergeSort me;
-		me.mergerSort(nums1,0,nums1.size()-1);
-		RobotMoveCount r;
-		r.movingCount(1, 2, 1);
-		GenerateTrees g;
-		g.generateTrees(3);
-		diffToC d;
-		d.diffWaysToCompute("2-1-1");
-		SplitArray sp;
-		vector<int>nums = { 7, 2, 5, 10, 8 };
-			int m = 2;
-			sp.splitArray(nums, m);
-		ShortestD s;
-		vector<vector<int>>grid = { {1,0,2,0,1},{0,0,0,0,0},{0,0,1,0,0} };
-		int res=s.shortestDistance(grid);
-		pathInMatrix p;
-		vector<vector<char>>board = {vector<char>{'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'}};
-		string word = "ABCCED";
-		p.exist(board, word);
+		auto a = exi.exist(vector<vector<char>>{{'a'}},"a");
+//		RestoreIpAddresses ria;
+//		ria.restoreIpAddresses("1111");
+//		PacificAtlantic pa;
+//		pa.pacificAtlantic(vector<vector<int>>{{1, 2, 2, 3, 5}, {3, 2, 3, 4, 4}, {2, 4, 5, 3, 1}, {6, 7, 1, 4, 5}, {5, 1, 1, 2, 4}});
+//		ShortestPathBinaryMatrix spb;
+//		spb.shortestPathBinaryMatrix(vector<vector<int>>{ {0, 1}, { 1, 0 }});
+//		FindCommonNumbers fcn;
+//		vector<vector<int>>tvec{ {1, 4, 15, 7,6}, { 1,4,15,6 }, { 1,6,7 },{1,2,4,15,6} };
+//		auto vec=fcn.findCommonNumbers(tvec);
+//		auto vec01 = fcn.findCommonNumbers1(tvec);
+//		LengthOfLongestSubstring lls;
+//		lls.lengthOfLongestSubstring("abcabcbb");
+//		LongestValidParentheses1 lvp1;
+//		lvp1.longestValidParentheses1("(()");
+//		LongestValidParentheses lvp;
+//		lvp.longestValidParentheses(")()())");
+//		LongestPalindrome lp;
+//		lp.longestPalindrome(string("aacabdkacaa"));
+//		FindRedundantDirectedConnection frd;
+//		frd.findRedundantDirectedConnection(vector<vector<int>>{ {1, 2}, { 1, 3 }, { 2, 3 }});
+//		FindCircleNum fc;
+//		fc.findCircleNum(vector<vector<int>>{ {1, 1, 0},{1, 1, 0},{0, 0, 1} });
+//		CalcEquation ce;
+//		CalcEquation1 ce1;
+//		CalcEquation2 ce2;
+//		ce2.calcEquation(vector<vector<string>>{{"x1", "x2"}, {"x2", "x3"}, {"x3", "x4"}, {"x4", "x5"}},
+//			vector<double>{3.0, 4.0, 5.0, 6.0},
+//			vector<vector<string>>{{"x1", "x5"}, {"x5", "x2"}, {"x2", "x4"}, {"x2", "x2"}, {"x2", "x9"}, {"x9", "x9"}});
+//		Surrounded sd;
+//		vector<vector<char>>ac
+//		{ {'X', 'O', 'X', 'X'}, {'O', 'X', 'O', 'X'}, {'X', 'O', 'X', 'O'},
+//{'O', 'X', 'O', 'X'}, {'X', 'O', 'X', 'O'}, {'O', 'X', 'O', 'X'} };
+//		sd.solve(ac);
+//		LongestConsecutive lc;
+//		lc.longestConsecutive(vector<int>{100, 4, 200, 1, 3, 2});
+//		ReconstructQueue rec;
+//		vector<vector<int>>vec1= {{40, 11}, {81, 12}, {32, 60}, {36, 39}, {76, 19}, {11, 37}, {67, 13}, {45, 39}, {99, 0}, {35, 20}, {15, 3}, {62, 13}, {90, 2}, {86, 0}, {26, 13}, {68, 32}, {91, 4}, {23, 24}, {73, 14}, {86, 13}, {62, 6}, {36, 13}, {67, 9}, {39, 57}, {15, 45}, {37, 26}, {12, 88}, {30, 18}, {39, 60}, {77, 2}, {24, 38}, {72, 7}, {96, 1}, {29, 47}, {92, 1}, {67, 28}, {54, 44}, {46, 35}, {3, 85}, {27, 9}, {82, 14}, {29, 17}, {80, 11}, {84, 10}, {5, 59}, {82, 6}, {62, 25}, {64, 29}, {88, 8}, {11, 20}, {83, 0}, {94, 4}, {43, 42}, {73, 9}, {57, 32}, {76, 24}, {14, 67}, {86, 2}, {13, 47}, {93, 1}, {95, 2}, {87, 8}, {8, 78}, {58, 16}, {26, 75}, {26, 15}, 
+//			{24, 56}, {69, 9}, {42, 22}, {70, 17}, {34, 48}, {26, 39}, {22, 28}, {21, 8}, {51, 44}, {35, 4}, {25, 48}, {78, 18}
+//			, {29, 30}, {13, 63}, {68, 8}, {21, 38}, {56, 20}, {84, 14}, {56, 27}, {60, 40}, {98, 0}, {63, 7}, {27, 46}, {70, 
+//			13}, {29, 23}, {49, 6}, {5, 64}, {67, 11}, {2, 31}, {59, 8}, {93, 0}, {50, 39}, {84, 6}, {19, 39}};
+//		auto res11=rec.reconstructQueue(vec1);
+//		vector<vector<int>>matrix = { {1,2,3,4},{5,6,7,8},{9,10,11,12} };
+//		spiralOrder(matrix);
+//
+//		Shopping_offer sh;
+//		sh.shoppingOffers(vector<int>{ 2, 5 }, vector<vector<int>>{ {3, 0, 5}, { 1, 2, 10 } }, vector<int>{ 3, 2 });
+//		vector<vector<char>>board233 = {{'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+//			{'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+//			{'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+//			{'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+//			{'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+//			{'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+//			{'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+//			{'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+//			{'.', '.', '.', '.', '8', '.', '.', '7', '9'}};
+//
+//		SudokuSolver sud;
+//		sud.solveSudoku(board233);
+//		
+//		SubsetsWithDup sw;
+//		sw.subsetsWithDup(vector<int>{1, 2, 2});
+//		Subsets sb;
+//		sb.subsets(vector<int>{1, 2, 3});
+//		FindTargetSumWays fts;
+//		fts.findTargetSumWays(vector<int>{ 1, 1, 1, 1, 1 }, 3);
+//		FindLongestChain fin;
+//		fin.findLongestChain(vector<vector<int>>{ {-6, 9}, { 1, 6 }, { 8, 10 }, { -1, 4 }, { -6, -2 }, { -9, 8 }, { -5, 3 }, { 0, 3 }});
+//		LengthOfLIS leng;
+//		leng.lengthOfLIS(vector<int>{10, 9, 2, 5, 3, 7, 101, 18});
+//		NumberCodings nbc;
+//		nbc.numDecodings("1123");
+//		NumSquares numsq;
+//		numsq.numSquares(12);
+//		NumberOfArithmeticSlices nu;
+//		
+//		nu.numberOfArithmeticSlices(vector<int>{1,2,3,8,9,10});
+//		CoinChange co;
+//		vector<int>coins{ 1,2,5 };
+//		int resc=co.coinChange(coins,11);
+//		MinimumTotal mi;
+//		vector<vector<int>>triangle = { {2}, {3, 4}, {6, 5, 7}, {4, 1, 8, 3} };
+//		mi.minimumTotal(triangle);
+//		auto ts = threeSum(vector<int>{1, 2, -2, -1});
+//		int fn = Fibonacci(1000);
+//		
+//		AddBigNumber ad;
+//		string ress = ad.solve("11", "123");
+//		TreeNode *TreeNode1 = new TreeNode(1);
+//		TreeNode *TreeNode2 = new TreeNode(2);
+//		TreeNode *TreeNode3 = new TreeNode(3);
+//		TreeNode *TreeNode4 = new TreeNode(4);
+//		TreeNode *TreeNode5 = new TreeNode(5);
+//		TreeNode *TreeNode6 = new TreeNode(6);
+//		TreeNode *TreeNode7 = new TreeNode(7);
+//		TreeNode4->left = TreeNode2;
+//		TreeNode4->right = TreeNode6;
+//		TreeNode2->left = TreeNode1;
+//		TreeNode2->right = TreeNode3;
+//		TreeNode6->left = TreeNode5;
+//		TreeNode6->right = TreeNode7;
+//		
+//		vector<int>res1 = postorder(TreeNode4);
+//		vector<int>res2 = inorderTraversal_iteratively(TreeNode4);
+//		vector<int>nums1 = { 5,2,3,1 };
+//		SelectSort se;
+//		se.sortArray(nums1);
+//		BubbleSort b;
+//		b.sortArray(nums1);
+//		QuickSort q;
+//		
+//		//q.sortArray(nums1);
+//		HeapSort h;
+//		//h.heapSort(nums1);
+//		MergeSort me;
+//		me.mergerSort(nums1,0,nums1.size()-1);
+//		RobotMoveCount r;
+//		r.movingCount(1, 2, 1);
+//		GenerateTrees g;
+//		g.generateTrees(3);
+//		diffToC d;
+//		d.diffWaysToCompute("2-1-1");
+//		SplitArray sp;
+//		vector<int>nums = { 7, 2, 5, 10, 8 };
+//			int m = 2;
+//			sp.splitArray(nums, m);
+//		ShortestD s;
+//		vector<vector<int>>grid = { {1,0,2,0,1},{0,0,0,0,0},{0,0,1,0,0} };
+//		int res=s.shortestDistance(grid);
+//		pathInMatrix p;
+//		vector<vector<char>>board = {vector<char>{'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'}};
+//		string word = "ABCCED";
+//		p.exist(board, word);
 		
 		/*SudokuSolver s;
 		vector<vector<char>> board  ={ vector<char>{'5', '3', '.', '.', '7', '.', '.', '.', '.'},

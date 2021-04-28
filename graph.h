@@ -148,7 +148,13 @@ public:
 		return res;
 	}
 };
-
+//130. Surrounded Regions
+//Medium
+//Share
+//Given an m x n matrix board containing 'X' and 'O', capture all regions surrounded by 'X'.
+//
+//A region is captured by flipping all 'O's into 'X's in that surrounded region.
+//解法1 并查集
 class Surrounded {
 public:
 	int rowD[4] = { 0,0,1,-1 };
@@ -189,6 +195,38 @@ public:
 			for (int j = 0;j < cols;++j) {
 				if (board[i][j] == 'X')continue;
 				if (find(i*cols + j) != find(rows*cols))board[i][j] = 'X';
+			}
+		}
+	}
+};
+//解法2 dfs
+class Surrounded1 {
+public:
+	int rowD[4] = { 0,0,1,-1 };
+	int colD[4] = { 1,-1,0,0 };
+	void dfs(vector<vector<char>>&board, int x, int y) {
+		if (x < 0 || x >= board.size() || y < 0 || y >= board[0].size() || board[x][y] != 'O')
+			return;
+		board[x][y] = '#';
+		for (int i = 0;i < 4;++i) {
+			dfs(board, x + rowD[i], y + colD[i]);
+		}
+	}
+	void solve(vector<vector<char>>& board) {
+		int rows = board.size(), cols = board[0].size();
+
+		for (int i = 0;i < rows;++i) {
+			dfs(board, i, 0);
+			dfs(board, i, cols - 1);
+		}
+		for (int i = 0;i < cols;++i) {
+			dfs(board, 0, i);
+			dfs(board, rows - 1, i);
+		}
+		for (int i = 0;i < rows;++i) {
+			for (int j = 0;j < cols;++j) {
+				if (board[i][j] == 'O')board[i][j] = 'X';
+				else if (board[i][j] == '#')board[i][j] = 'O';
 			}
 		}
 	}
@@ -383,45 +421,80 @@ public:
 //You are given an n x n matrix isConnected where isConnected[i][j] = 1 if the ith city and the jth city are directly connected, and isConnected[i][j] = 0 otherwise.
 //
 //Return the total number of provinces
+
+class UF {
+public:
+	vector<int>fa;
+	vector<int>rank;
+	UF(int size) {
+		fa.resize(size);
+		rank.resize(size);
+		for (int i = 0;i < size;++i) {
+			fa[i] = i;
+			rank[i] = 1;
+		}
+
+
+	}
+
+	int find(int x) {
+		return x == fa[x] ? x : (fa[x] = find(fa[x]));
+	}
+
+	void  Union(int x, int y) {
+		int r1 = find(x), r2 = find(y);
+		if (r1 == r2)return;
+		if (rank[r1] < rank[r2]) {
+			fa[r1] = r2;
+			rank[r2]++;
+		}
+		else {
+			fa[r2] = r1;
+			rank[r1]++;
+		}
+	}
+};
 class FindCircleNum {
 
 public:
-
-	class UF {
-	private:
-		vector<int>fa;
-	public:
-		UF(int n) {
-			fa.resize(n);
-			for (int i = 0;i < n;++i)
-				fa[i] = i;
-		}
-
-		int find(int x) {
-			return x == fa[x] ? x : (fa[x] = find(fa[x]));
-		}
-
-		void Union(int x, int y) {
-			int r1 = find(x), r2 = find(y);
-			if (r1 == r2)return;
-			fa[r1] = r2;
-		}
-	};
+	//解法1，并查集
 	int findCircleNum(vector<vector<int>>& isConnected) {
 		int n = isConnected.size();
 		UF uf(n);
+
 		for (int i = 0;i < n;++i) {
 			for (int j = 0;j < n;++j) {
+
 				if (isConnected[i][j] == 1)uf.Union(i, j);
 			}
 		}
-		unordered_set<int>roots;
+		unordered_set<int>ancestors;
 		for (int i = 0;i < n;++i) {
-			int root = uf.find(i);
-			if (roots.find(root) == roots.end())
-				roots.insert(root);
+			int r = uf.find(i);
+			ancestors.insert(r);
 		}
-		return roots.size();
+		return ancestors.size();
+
+	}
+	//解法2，dfs
+	int findCircleNum1(vector<vector<int>>& isConnected) {
+		int n = isConnected.size();
+		vector<int>visitied(n);
+		int res = 0;
+		for (int i = 0;i < n;++i) {
+			if (!visitied[i]) {
+				dfs(isConnected, visitied, i);++res;
+			}
+		}
+		return res;
+	}
+
+	void dfs(vector<vector<int>>& isConnected, vector<int>&visitied, int x) {
+		if (x > isConnected.size() - 1 || visitied[x])return;
+		visitied[x] = true;
+		for (int i = 0;i < isConnected.size();++i) {
+			if (isConnected[x][i] == 1)dfs(isConnected, visitied, i);
+		}
 	}
 };
 //684. 冗余连接
@@ -509,4 +582,118 @@ public:
 		return can1;
 	}
 
+};
+//1091. Shortest Path in Binary Matrix(Medium)
+//题目描述：0 表示可以经过某个位置，求解从左上角到右下角的最短路径长度。
+class ShortestPathBinaryMatrix {
+public:
+	int rowD[8] = { 0,0,1,-1,1,-1,1,-1 };
+	int colD[8] = { 1,-1,0,0,1,-1,-1,1 };
+	int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+		int row = grid.size(), col = grid[0].size();
+		if (grid[0][0] == 1)return -1;
+		queue<pair<int, int>>q;
+		q.push(make_pair(0, 0));
+		grid[0][0] = 1;
+		int res = 0;
+		while (!q.empty()) {
+			int size = q.size();
+			res++;
+			for (int i = 0;i < size;++i) {
+				auto pair = q.front();
+				q.pop();
+				if (pair.first == row - 1 && pair.second == col - 1)return res;
+				for (int j = 0;j < 8;++j) {
+					int rr = pair.first + rowD[j], cc = pair.second + colD[j];
+					if (rr >= 0 && rr < row&&cc >= 0 && cc < col&&grid[rr][cc] == 0) {
+						q.push(make_pair(rr, cc));
+						grid[rr][cc] = 1;
+					}
+				}
+			}
+
+		}
+		return -1;
+	}
+};
+//127. Word Ladder
+//A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord->s1->s2 -> ...->sk such that :
+//Every adjacent pair of words differs by a single letter.
+//Every si for 1 <= i <= k is in wordList.Note that beginWord does not need to be in wordList.
+//Given two words, beginWord and endWord, and a dictionary wordList, return the number of words in the shortest transformation sequence from beginWord to endWord, or 0 if no such sequence exists.
+class LadderLength {
+public:
+	int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+		unordered_set<string>words(wordList.begin(), wordList.end());
+		queue<string>q;
+		q.push(beginWord);
+		int len = wordList.size();
+		int res = 0;
+		while (!q.empty()) {
+			int size = q.size();
+			++res;
+			for (int i = 0;i < size;++i) {
+				string cur = q.front();
+				q.pop();
+				if (cur == endWord) {
+					return res;
+				}
+				words.erase(cur);
+				for (int j = 0;j < cur.size();++j) {
+					char c = cur[j];
+					for (int k = 0;k < 26;++k) {
+						cur[j] = 'a' + k;
+						if (words.find(cur) != words.end()) {
+							q.push(cur);
+						}
+					}
+					cur[j] = c;
+				}
+			}
+		}
+		return 0;
+	}
+};
+//417. 太平洋大西洋水流问题
+//给定一个 m x n 的非负整数矩阵来表示一片大陆上各个单元格的高度。“太平洋”处于大陆的左边界和上边界，而“大西洋”处于大陆的右边界和下边界。
+//
+//规定水流只能按照上、下、左、右四个方向流动，且只能从高到低或者在同等高度上流动。
+//
+//请找出那些水流既可以流动到“太平洋”，又能流动到“大西洋”的陆地单元的坐标。
+class PacificAtlantic {
+public:
+	int rowD[4] = { 0,0,1,-1 };
+	int colD[4] = { 1,-1,0,0 };
+	vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+		int rows = heights.size(), cols = heights[0].size();
+		vector<vector<int>>canReachA(rows, vector<int>(cols));
+		vector<vector<int>>canReachP(canReachA);
+		for (int i = 0;i < cols;++i) {
+			dfs(heights, 0, i, canReachP);
+			dfs(heights, rows - 1, i, canReachA);
+		}
+		for (int i = 0;i < rows;++i) {
+			dfs(heights, i, 0, canReachP);
+			dfs(heights, i, cols - 1, canReachA);
+		}
+		vector<vector<int>>res;
+		for (int i = 0;i < rows;++i) {
+			for (int j = 0;j < cols;++j) {
+				if (canReachP[i][j] && canReachA[i][j])
+					res.push_back(vector<int>{i, j});
+			}
+		}
+		return res;
+	}
+
+	void dfs(vector<vector<int>>& heights, int x, int y, vector<vector<int>>&canReach) {
+		
+		canReach[x][y] = 1;
+		for (int i = 0;i < 4;++i) {
+			int rr = x + rowD[i], cc = y + colD[i];
+			if (rr < 0 || cc < 0 || rr >= heights.size() || cc >= heights[0].size() || canReach[rr][cc])continue;
+			if (heights[x][y] <= heights[rr][cc])
+				dfs(heights, rr, cc, canReach);
+		}
+	}
 };

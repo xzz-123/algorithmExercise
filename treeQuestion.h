@@ -294,8 +294,62 @@ public:
 		return abs(left - right) > 1 ? -1 : max(left, right) + 1;
 	}
 };
+//257. Binary Tree Paths
+//Given the root of a binary tree, return all root - to - leaf paths in any order.
+//
+//A leaf is a node with no children.
+//解法1：递归dfs
+class BinaryTreePaths {
+public:
+	vector<string> binaryTreePaths(TreeNode* root) {
+		vector<string>res;
+		string cur;
+		dfs(root, res, cur);
+		return res;
+	}
+	void dfs(TreeNode *root, vector<string>&res, string cur) {
+		if (root->left == nullptr&&root->right == nullptr) {
+			cur += to_string(root->val);
+			res.push_back(cur);
+			return;
+		}
+		string s = to_string(root->val);
 
+		if (root->left)dfs(root->left, res, cur + s + "->");
+		if (root->right)dfs(root->right, res, cur + s + "->");
+	}
+};
+//解法2：用栈，dfs
+class BinaryTreePaths1 {
+public:
+	vector<string> binaryTreePaths(TreeNode* root) {
+		vector<string>res;
+		if (root == nullptr)return res;
+		stack<TreeNode*>s;
+		stack<string>path;
+		s.push(root);
+		path.push(to_string(root->val));
+		while (!s.empty()) {
+			TreeNode*cur = s.top();
+			s.pop();
+			string curs = path.top();
+			path.pop();
+			if (cur->left == nullptr&&cur->right == nullptr) {
+				res.push_back(curs);
+			}
+			if (cur->left) {
+				s.push(cur->left);
+				path.push(curs + "->" + to_string(cur->left->val));
+			}
+			if (cur->right) {
+				s.push(cur->right);
+				path.push(curs + "->" + to_string(cur->right->val));
+			}
+		}
+		return res;
+	}
 
+};
 
 vector<int> postorder(TreeNode* root);
 

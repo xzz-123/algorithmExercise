@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
+#include <map>
 using namespace std;
 //Given an array nums, write a function to move all 0's to the end of it while maintaining the relative order of the non-zero elements.
 void moveZeroes(vector<int>& nums);
@@ -67,3 +68,62 @@ vector<int> spiralOrder(vector<vector<int> > &matrix);
 //三元组（a、b、c）中的元素必须按非降序排列。（即a≤b≤c）
 //解集中不能包含重复的三元组。
 vector<vector<int> > threeSum(vector<int> &num);
+
+
+//阿里一面面试题
+//找到多个连续严格递增数组的交集
+class FindCommonNumbers
+{
+public: 
+
+	vector<int>findCommonNumbersInTwoArray(vector<int>&vec1,vector<int>&vec2) {
+		int n1 = vec1.size(), n2 = vec2.size();
+		vector<int>res;
+		for (int i=0,j=0;i<n1&&j<n2;)
+		{
+			if (vec1[i] < vec2[j])++i;
+			else if (vec1[i] > vec2[j])++j;
+			else {
+				res.push_back(vec1[i]);
+				++i;++j;
+			}
+		}
+		return res;
+	}
+	//解法1：转化成求n-1次两个有序数组求交集
+	vector<int>findCommonNumbers(vector<vector<int>>&nums) {
+		int len = nums.size();
+		vector<int>cur = nums[0];
+		for (int i=1;i<len;++i)
+		{
+			cur = findCommonNumbersInTwoArray(cur,nums[i]);
+		}
+		return cur;
+	}
+	//解法2：遍历所有的元素，记录每个数字出现的次数，次数等于数组数量的，就是答案之一
+	vector<int>findCommonNumbers1(vector<vector<int>>&nums) {
+		int len = nums.size();
+		vector<int>res;
+		if (len==0)
+		{
+			return res;
+		}
+		map<int,int>m;
+		for (auto &vec:nums)
+		{
+			for (auto &num:vec)
+			{
+				m[num]++;
+			}
+		}
+		for (auto &i:m)
+		{
+			if (i.second==len)
+			{
+				res.push_back(i.first);
+			}
+		}
+		return res;
+	}
+	
+};

@@ -4,28 +4,6 @@
 #include <numeric>
 #include <set>
 using namespace std;
-//77. 组合
-//给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合
-class Combine {
-public:
-	vector<vector<int>>res;
-	vector<int>cur;
-
-	vector<vector<int>> combine(int n, int k) {
-		helper(n, 1, k);
-		return res;
-	}
-	void helper(int n, int ind, int k) {
-		if (cur.size() == k) {
-			res.push_back(cur);return;
-		}
-		for (int i = ind;i <= n;++i) {
-			cur.push_back(i);
-			helper(n, i + 1, k);
-			cur.pop_back();
-		}
-	}
-};
 //与下面是同一个问题，回溯法的不同写法
 class Subsets {
 public:
@@ -242,33 +220,33 @@ public:
 };
 //判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一个格子开始，
 //每一步可以在矩阵中向上下左右移动一个格子。如果一条路径经过了矩阵中的某一个格子，则该路径不能再进入该格子。
-class pathInMatrix {
-
-private:
-	int rowDir[4] = { 0,0,-1,1 };
-	int colDir[4] = { 1,-1,0,0 };
-	bool helper(vector<vector<char>>&board, string word, int rowIndex, int colIndex) {
-		int row = board.size(), col = board[0].size();
-		if (word.empty())return true;
-		if ((rowIndex >= row || colIndex >= col) || rowIndex < 0 || colIndex < 0 ||
-			board[rowIndex][colIndex] != word[0])return false;
-		board[rowIndex][colIndex] = ' ';
-		for (int i = 0;i < 4;++i)
-		{
-			if (helper(board, word.substr(1, word.size() - 1), rowIndex + rowDir[i], colIndex + colDir[i]))
-				return true;
-		}
-		board[rowIndex][colIndex] = word[0];
-		return false;
-	}
+class Exist {
 public:
+	int rowD[4] = { 0,0,1,-1 };
+	int colD[4] = { 1,-1,0,0 };
+	vector<vector<bool>> visitied;
 	bool exist(vector<vector<char>>& board, string word) {
-		int row = board.size(), col = board[0].size();
-		for (int i = 0;i < row;++i) {
-			for (int j = 0;j < col;++j) {
-				if (helper(board, word, i, j))return true;
+		visitied.assign(board.size(), vector<bool>(board[0].size()));
+		for (int i = 0;i < board.size();++i) {
+			for (int j = 0;j < board[0].size();++j) {
+				if (backTrack(board, word, i, j, 0))return true;
 			}
 		}
+		return false;
+	}
+
+	bool backTrack(vector<vector<char>>& board, string word, int x, int y, int id) {
+		if (board[x][y] != word[id])return false;
+		if (id == word.size() - 1) {
+			return true;
+		}
+		visitied[x][y] = true;
+		for (int i = 0;i < 4;++i) {
+			int rr = x + rowD[i], cc = y + colD[i];
+			if (rr >= board.size() || rr < 0 || cc < 0 || cc >= board[0].size() || visitied[rr][cc])continue;
+			if (backTrack(board, word, rr, cc, id + 1))return true;
+		}
+		visitied[x][y] = false;
 		return false;
 	}
 };
@@ -445,4 +423,188 @@ public:
 		}
 	}*/
 };
+//46. Permutations
+//Medium
+//Given an array nums of distinct integers, return all the possible permutations.
+//You can return the answer in any order.
+class Permute {
+public:
+	vector<int>visitied;
+	vector<vector<int>> permute(vector<int>& nums) {
+		visitied.resize(nums.size());
+		vector<vector<int>>res;
+		vector<int>cur;
+		backTrack(nums, cur, res);
+		return res;
+	}
 
+	void backTrack(vector<int>& nums, vector<int>&cur, vector<vector<int>>&res) {
+		if (cur.size() == nums.size()) {
+			res.push_back(cur);return;
+		}
+		for (int i = 0;i < nums.size();++i) {
+			if (visitied[i])continue;
+			visitied[i] = true;
+			cur.push_back(nums[i]);
+			backTrack(nums, cur, res);
+			visitied[i] = false;
+			cur.pop_back();
+		}
+	}
+};
+//47. Permutations II
+//Medium
+//Given a collection of numbers, nums, that might contain duplicates, 
+//return all possible unique permutations in any order.
+class PermuteUnique {
+public:
+	vector<bool>visitied;
+	vector<vector<int>> permuteUnique(vector<int>& nums) {
+		sort(nums.begin(), nums.end());
+		vector<vector<int>>res;
+		vector<int>cur;
+		visitied.resize(nums.size());
+		backTrack(res, cur, nums);
+		return res;
+	}
+
+	void backTrack(vector<vector<int>>&res, vector<int>&cur, vector<int>& nums) {
+		if (cur.size() == nums.size()) {
+			res.push_back(cur);return;
+		}
+		for (int i = 0;i < nums.size();++i) {
+			if (visitied[i])continue;
+			if (i > 0 && nums[i] == nums[i - 1] && !visitied[i - 1])continue;
+			visitied[i] = true;
+			cur.push_back(nums[i]);
+			backTrack(res, cur, nums);
+			visitied[i] = false;
+			cur.pop_back();
+		}
+	}
+};
+//77. Combinations
+//Medium
+//Given two integers n and k, return all possible combinations of k numbers out of the range[1, n].
+//
+//You may return the answer in any order.
+class Combine{
+public:
+	vector<vector<int>> combine(int n, int k) {
+		vector<vector<int>> res;
+		vector<int>cur;
+		helper(res, cur, n, k, 1);
+		return res;
+	}
+
+	void helper(vector<vector<int>> &res, vector<int>&cur, int n, int k, int id) {
+		if (k == 0) {
+			res.push_back(cur);return;
+		}
+		for (int i = id;i <= n;++i) {
+			cur.push_back(i);
+			helper(res, cur, n, k - 1, i + 1);
+			cur.pop_back();
+		}
+	}
+};
+//39. Combination Sum
+//Medium
+//
+//Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target.You may return the combinations in any order.
+//
+//The same number may be chosen from candidates an unlimited number of times.Two combinations are unique if the frequency of at least one of the chosen numbers is different.
+//
+//It is guaranteed that the number of unique combinations that sum up to target is less than 150 combinations for the given input.
+class CombinationSum {
+public:
+
+	vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+		vector<vector<int>> res;
+		vector<int>cur;
+
+		helper(candidates, res, cur, target, 0);
+		return res;
+	}
+
+	void helper(vector<int>& candidates, vector<vector<int>> &res, vector<int>&cur, int target, int id) {
+		if (target < 0)return;
+		if (target == 0) {
+			res.push_back(cur);return;
+		}
+		for (int i = id;i < candidates.size();++i) {
+			cur.push_back(candidates[i]);
+			helper(candidates, res, cur, target - candidates[i], i);
+			cur.pop_back();
+		}
+
+	}
+};
+//40. Combination Sum II
+//Medium
+//Given a collection of candidate numbers(candidates) and a target number(target), find all unique combinations in candidates where the candidate numbers sum to target.
+//
+//Each number in candidates may only be used once in the combination.
+//
+//Note: The solution set must not contain duplicate combinations.
+class CombinationSum2 {
+public:
+
+	vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+		vector<vector<int>> res;
+		vector<int>cur;
+		sort(candidates.begin(), candidates.end());
+
+		helper(candidates, res, cur, target, 0);
+		return res;
+	}
+
+	void helper(vector<int>& candidates, vector<vector<int>> &res, vector<int>&cur, int target, int id) {
+		if (target < 0)return;
+		if (target == 0) {
+			res.push_back(cur);return;
+		}
+
+		for (int i = id;i < candidates.size();++i) {
+
+			if (i > id&&candidates[i] == candidates[i - 1])continue;
+
+			cur.push_back(candidates[i]);
+			helper(candidates, res, cur, target - candidates[i], i + 1);
+			cur.pop_back();
+
+		}
+
+	}
+};
+//216. Combination Sum III
+//Medium
+//
+//Find all valid combinations of k numbers that sum up to n such that the following conditions are true:
+//
+//Only numbers 1 through 9 are used.
+//Each number is used at most once.
+//Return a list of all possible valid combinations.The list must not contain the same combination twice, and the combinations may be returned in any order.
+class CombinationSum3 {
+public:
+	vector<vector<int>> combinationSum3(int k, int target) {
+		vector<vector<int>> res;
+		vector<int>cur;
+
+		helper(k, res, cur, target, 1);
+		return res;
+	}
+
+	void helper(int k, vector<vector<int>> &res, vector<int>&cur, int target, int id) {
+		if (target < 0 || k < 0)return;
+		if (target == 0 && k == 0) {
+			res.push_back(cur);return;
+		}
+
+		for (int i = id;i < 10;++i) {
+			cur.push_back(i);
+			helper(k - 1, res, cur, target - i, i + 1);
+			cur.pop_back();
+		}
+	}
+};

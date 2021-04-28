@@ -22,19 +22,16 @@ public:
 	}
 };
 class QuickSort {
-//绿色注释为另一种实现方法——交换大法
+
 	int partition(vector<int>&nums, int left, int right) {
-		
 		int pivot = nums[left];
-		//int start = left;
 		while (left < right) {
 			while (left < right&&nums[right] >= pivot)--right;
 			nums[left] = nums[right];
 			while (left < right&&nums[left] <= pivot)++left;
 			nums[right] = nums[left];
-			//if (left < right)swap(nums[left], nums[right]);
+			
 		}
-		//swap(nums[start], nums[left]);
 		nums[left] = pivot;
 		return left;
 	}
@@ -58,8 +55,7 @@ class Findkth {
 public:
 	int findKth(vector<int> a, int n, int K) {
 		// write code here
-
-		K = n - K;
+		K = n - K;//第K大的数在升序排列中的下标为n-K
 		int left = 0, right = n - 1;
 		while (left < right) {
 			int j = partition(a, left, right);
@@ -160,8 +156,8 @@ public:
 class BubbleSort {
 	void bubbleSort(vector<int>&nums) {
 		int len = nums.size();
-		for (int i = 0;i <len;++i) {
-			for (int j = 0;j < len-i-1;++j) {
+		for (int i = 0;i < len;++i) {
+			for (int j = 0;j < len - i - 1;++j) {
 				if (nums[j] > nums[j + 1])swap(nums[j], nums[j + 1]);
 			}
 		}
@@ -170,7 +166,6 @@ public:
 	vector<int> sortArray(vector<int>& nums) {
 		bubbleSort(nums);return nums;
 	}
-
 };
 
 class InsertSort {

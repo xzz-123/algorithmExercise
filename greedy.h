@@ -38,3 +38,21 @@ public:
 	}
 
 };
+
+class LengthOfLongestSubstring {
+public:
+	int lengthOfLongestSubstring(string s) {
+		unordered_set<char>se;
+		int ans = 0, j = 0;
+		for (int i = 0;i < s.size();++i) {
+			while (j < s.size() && se.find(s[j]) == se.end()) {
+				se.insert(s[j]);
+				++j;
+			}
+			se.erase(s[i]);
+			ans = max(ans, j - i);
+		}
+
+		return ans;
+	}
+};
